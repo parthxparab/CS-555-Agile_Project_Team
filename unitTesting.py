@@ -6,7 +6,7 @@ class functionTest(unittest.TestCase):
         result03 = ['I4 : Robb /Stark/ has a ERRORNEOUS Birthdate with respect to Deathdate',
                     'I6 : Jon /Barathaon/ has a ERRORNEOUS Birthdate with respect to Deathdate',
                     'I9 : Raegar /Targarayen/ has a ERRORNEOUS Birthdate with respect to Deathdate',
-                    'I12 : Margery /Tyrell/ has a ERRORNEOUS Birthdate with respect to Deathdate'];
+                    'I12 : Margery /Tyrell/ has a ERRORNEOUS Birthdate with respect to Deathdate']
         self.assertEqual(project04.us03(),result03) 
 
     def test_userstory04(self):

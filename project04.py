@@ -174,31 +174,31 @@ print(tabulate(df_fam, headers='keys', tablefmt='psql'))
 #User Story 03 : VJ
 #Birth before Death
 def us03():
-  df_copy = df_indi.copy();
-  todayDate = datetime.datetime.today().strftime('%Y-%m-%d');
+  df_copy = df_indi.copy()
+  todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
   todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
   df_copy = df_copy.replace({'Death':'NA'},todayDate)
 
-  correct = [];
-  error = [];
+  correct = []
+  error = []
   for i,j in df_copy.iterrows():
     if df_copy['Death'][i] > df_copy['Birthday'][i]:
-      correct.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a CORRECT Birthdate with respect to Deathdate");
+      correct.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a CORRECT Birthdate with respect to Deathdate")
     else:
-      error.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a ERRORNEOUS Birthdate with respect to Deathdate");
-  return error;
+      error.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a ERRORNEOUS Birthdate with respect to Deathdate")
+  return error
 
 #User Story 04 : VJ
 #Marriage before Divorce
 def us04():
-  df_copy = df_fam.copy();
-  correct = [];
-  error = [];
+  df_copy = df_fam.copy()
+  correct = []
+  error = []
   for i,j in df_copy.iterrows():
     if df_copy['Divorced'][i] == 'NA' or df_copy['Married'][i] == 'NA':
-      continue;
+      continue
     if df_copy['Divorced'][i] > df_copy['Married'][i]:
-      correct.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a CORRECT Marriage date with respect to Divorced date");
+      correct.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a CORRECT Marriage date with respect to Divorced date")
     else:
-      error.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date");  
-  return error;
+      error.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")  
+  return error
