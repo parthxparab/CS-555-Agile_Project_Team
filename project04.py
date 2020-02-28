@@ -215,6 +215,76 @@ def us04():
                          df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")
     return error
 
+##########__________________Pranav's Code__________________########################
+
+# User Story 05: Marriage before death
+def us_05_marriage_before_death():
+    
+    df_us_05 = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouse'])
+    for index, col in df_fam.iterrows():
+        husb_id = col["Husband ID"]
+        marriage_date = col['Married']
+        wife_id = col["Wife ID"]
+        
+        for index, col in df_indi.iterrows():
+            # check if indi id matches with hus_id or wife_id
+            if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
+            # given condition if marriage exists, death exists
+                if ((marriage_date != "NA") and (col["Alive"] is not True) and (col["Death"] > marriage_date)):
+                    df_us_05 = df_us_05.append(col)
+    
+    error = pd.concat([df_us_05,df_indi]).drop_duplicates(keep=False)
+    df_us_05['Outcome'] = True
+    error['Outcome'] = False
+    
+    result = df_us_05.append(error, ignore_index=True)
+    result = result.sort_values(by=['ID'], ascending=True)
+    print("\n")
+    print("USER STORY 05 TEST : ")
+    for i, j in result.iterrows():
+        if j["Outcome"] is True:
+            print(j["ID"] + " : " + j["Name"] + " has a CORRECT marriage with respect to Death")
+        else:
+            print(j["ID"] + " : " + j["Name"] + " has an ERRORNEOUS marriage with respect to Death")
+    return ('')
+
+print(us_05_marriage_before_death())
+
+                            
+# User Story 06: divorce before death
+def us_06_divorce_before_death():
+    df_us_06 = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouse'])
+    for index, col in df_fam.iterrows():
+        husb_id = col["Husband ID"]
+        divorce_date = col['Divorced']
+        wife_id = col["Wife ID"]
+        
+        for index, col in df_indi.iterrows():
+            # check if indi id matches with hus_id or wife_id
+            if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
+            # given condition if divorce exists, death exists
+                if ((divorce_date != "NA") and (col["Alive"] is not True) and (col["Death"] > divorce_date)):
+                            df_us_06 = df_us_06.append(col)
+    
+    error = pd.concat([df_us_06,df_indi]).drop_duplicates(keep=False)
+    df_us_06['Outcome'] = True
+    error['Outcome'] = False
+    
+    result = df_us_06.append(error, ignore_index=True)
+    result = result.sort_values(by=['ID'], ascending=True)
+    print("\n")
+    print("USER STORY 06 TEST : ")
+    for i, j in result.iterrows():
+        if j["Outcome"] is True:
+            print(j["ID"] + " : " + j["Name"] + " has a CORRECT divorce with respect to Death")
+        else:
+            print(j["ID"] + " : " + j["Name"] + " has an ERRORNEOUS divorce with respect to Death")
+    return ('')
+
+print(us_06_divorce_before_death())
+
+
+
 ##########__________________Sanket's Code__________________########################
 
 
