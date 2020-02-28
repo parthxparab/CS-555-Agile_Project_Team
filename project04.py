@@ -10,6 +10,7 @@ Original file is located at
 from datetime import datetime  # US08
 import pandas as pd
 import datetime
+import dateutil.relativedelta
 from dateutil.relativedelta import relativedelta
 from tabulate import tabulate
 
@@ -215,10 +216,13 @@ def us04():
                          df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")
     return error
 
-##########__________________Sanket's Code__________________########################
+##########__________________Sanket's Code__________________##########
+
+# US07 : SP
+# Less then 150 years old
 
 
-def US07():  # US07
+def US07():
     df_death = df_indi[(df_indi['Age'] > 150)]
     if df_death.empty:
         return('No Errors')
@@ -228,6 +232,9 @@ def US07():  # US07
 
 print(US07())
 
+
+# US08 : SP
+# Birth before marriage of parents
 
 def US08():
     errors = []
@@ -239,6 +246,10 @@ def US08():
         for i, c in df_indi.iterrows():
             if(marr != 'NA'):
                 if((c['Birthday'] < marr) and (c['ID'] in child)):
+                    errors.append((c['ID']))
+            if(marr != 'NA' and div != 'NA'):
+                check = div + dateutil.relativedelta.relativedelta(months=9)
+                if((c['Birthday'] > check) and (c['ID'] in child)):
                     errors.append((c['ID']))
     if errors:
         return(errors)
