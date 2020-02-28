@@ -173,7 +173,7 @@ print(tabulate(df_fam, headers='keys', tablefmt='psql'))
 
 #User Story 03 : VJ
 #Birth before Death
-def us03(df_indi):
+def us03():
   df_copy = df_indi.copy();
   todayDate = datetime.datetime.today().strftime('%Y-%m-%d');
   todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
@@ -186,16 +186,11 @@ def us03(df_indi):
       correct.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a CORRECT Birthdate with respect to Deathdate");
     else:
       error.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a ERRORNEOUS Birthdate with respect to Deathdate");
-  print(*correct, sep = "\n");
-  print(*error, sep = "\n");
-
-#User Story 03 Testing
-print("USER STORY 03 TEST : ")
-us03(df_indi);
+  return error;
 
 #User Story 04 : VJ
 #Marriage before Divorce
-def us04(df_fam):
+def us04():
   df_copy = df_fam.copy();
   correct = [];
   error = [];
@@ -206,9 +201,4 @@ def us04(df_fam):
       correct.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a CORRECT Marriage date with respect to Divorced date");
     else:
       error.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date");  
-  print(*correct, sep = "\n");
-  print(*error, sep = "\n");
-
-  #User Story 04 Testing
-print("USER STORY 04 TEST : ")
-us04(df_fam);
+  return error;
