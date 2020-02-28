@@ -176,6 +176,8 @@ print(tabulate(df_indi, headers='keys', tablefmt='psql'))
 print("Families")
 print(tabulate(df_fam, headers='keys', tablefmt='psql'))
 
+##########__________________ Vedadnya's Code__________________###########
+
 # User Story 03 : VJ
 # Birth before Death
 
@@ -216,7 +218,7 @@ def us04():
                          df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")
     return error
 
-##########__________________Pranav's Code__________________########################
+#############__________________Pranav's Code__________________###############
 
 # User Story 05: Marriage before death
 
@@ -295,7 +297,7 @@ def us_06_divorce_before_death():
 print(us_06_divorce_before_death())
 
 
-##########__________________Sanket's Code__________________########################
+#############__________________Sanket's Code__________________###############
 
 # US07 : SP
 # Less then 150 years old
