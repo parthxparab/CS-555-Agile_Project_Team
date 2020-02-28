@@ -192,3 +192,23 @@ def us03(df_indi):
 #User Story 03 Testing
 print("USER STORY 03 TEST : ")
 us03(df_indi);
+
+#User Story 04 : VJ
+#Marriage before Divorce
+def us04(df_fam):
+  df_copy = df_fam.copy();
+  correct = [];
+  error = [];
+  for i,j in df_copy.iterrows():
+    if df_copy['Divorced'][i] == 'NA' or df_copy['Married'][i] == 'NA':
+      continue;
+    if df_copy['Divorced'][i] > df_copy['Married'][i]:
+      correct.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a CORRECT Marriage date with respect to Divorced date");
+    else:
+      error.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date");  
+  print(*correct, sep = "\n");
+  print(*error, sep = "\n");
+
+  #User Story 04 Testing
+print("USER STORY 04 TEST : ")
+us04(df_fam);
