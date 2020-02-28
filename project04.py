@@ -7,6 +7,7 @@ Original file is located at
     https://colab.research.google.com/drive/1KfVp8srjYI2g8voPOUgtxbJ4vWifm-js
 """
 
+from datetime import datetime  # US08
 import pandas as pd
 import datetime
 from dateutil.relativedelta import relativedelta
@@ -22,37 +23,37 @@ lines = [[el] for el in lines]
 for i in range(len(lines)):
     if((len(lines[i][0].strip().split())) < 2):
         lines[i] = "Incomplete GEDCOM on Line "+str(i)
-    else: 
-        lines[i] = lines[i][0].strip().split(" ",2)
-        if(len(lines[i])>2 and lines[i][1] in ['INDI','FAM']):
+    else:
+        lines[i] = lines[i][0].strip().split(" ", 2)
+        if(len(lines[i]) > 2 and lines[i][1] in ['INDI', 'FAM']):
             lines[i] = "Invalid GEDCOM on Line "+str(i)
-        elif(len(lines[i])>2 and lines[i][2] in ['INDI','FAM']):
+        elif(len(lines[i]) > 2 and lines[i][2] in ['INDI', 'FAM']):
             lines[i][1], lines[i][2] = lines[i][2], lines[i][1]
 
-valid_tags = {'INDI': '0', 'NAME':'1', 'SEX': '1', 'BIRT':'1', 'DEAT': '1', 'FAMC': '1', 'FAMS': '1', 'FAM': '0',
-             'MARR': '1', 'HUSB':'1', 'WIFE':'1','CHIL':'1','DIV':'1','DATE':'2','HEAD':'0',
-              'TRLR': '0', 'NOTE':'0'}
+valid_tags = {'INDI': '0', 'NAME': '1', 'SEX': '1', 'BIRT': '1', 'DEAT': '1', 'FAMC': '1', 'FAMS': '1', 'FAM': '0',
+              'MARR': '1', 'HUSB': '1', 'WIFE': '1', 'CHIL': '1', 'DIV': '1', 'DATE': '2', 'HEAD': '0',
+              'TRLR': '0', 'NOTE': '0'}
 
 gedcom_out = []
 for i in range(len(lines)):
-    
-    #print("-->"+justLines[0][i])
-    if(len(lines[i])>2):
+
+    # print("-->"+justLines[0][i])
+    if(len(lines[i]) > 2):
         if(lines[i][1] in valid_tags.keys() and valid_tags[lines[i][1]] == (lines[i][0])):
-            #print("<--"+lines[i][0]+"|"+lines[i][1]+"|Y|"+lines[i][2])
-            gedcom_out.append((lines[i][0],lines[i][1],lines[i][2]))
+            # print("<--"+lines[i][0]+"|"+lines[i][1]+"|Y|"+lines[i][2])
+            gedcom_out.append((lines[i][0], lines[i][1], lines[i][2]))
         elif(lines[i][0:2] == "In"):
-            #print("<--"+lines[i])
+            # print("<--"+lines[i])
             gedcom_out.append(lines[i])
         else:
             continue
-            #print("<--"+lines[i][0]+"|"+lines[i][1]+"|N|"+lines[i][2])
+            # print("<--"+lines[i][0]+"|"+lines[i][1]+"|N|"+lines[i][2])
     elif(len(lines[i]) == 2):
         if(lines[i][1] in valid_tags.keys() and valid_tags[lines[i][1]] == (lines[i][0])):
-            #print("<--"+lines[i][0]+"|"+lines[i][1]+"|Y|")
-            gedcom_out.append((lines[i][0],lines[i][1]))
+            # print("<--"+lines[i][0]+"|"+lines[i][1]+"|Y|")
+            gedcom_out.append((lines[i][0], lines[i][1]))
         else:
-            #print("<--"+lines[i][0]+"|"+lines[i][1]+"|N|")
+            # print("<--"+lines[i][0]+"|"+lines[i][1]+"|N|")
             continue
 gedcom_out.pop(0)
 gedcom_out.pop(-1)
@@ -61,35 +62,36 @@ gedcom_out = list(filter((('1', 'BIRT')).__ne__, gedcom_out))
 flag = 0
 for i in range(len(gedcom_out)):
     if(i > 500):
-      break
+        break
     lst_vals = []
-    j=i+1
-    if(gedcom_out[i][1] == 'INDI' and gedcom_out[i][0] == '0'):    
+    j = i+1
+    if(gedcom_out[i][1] == 'INDI' and gedcom_out[i][0] == '0'):
         while(gedcom_out[j][1] != 'INDI'):
             key = gedcom_out[i][2][1:-1]
             if(gedcom_out[j][1] == 'FAM' and gedcom_out[j][0] == '0'):
                 flag = 1
                 break
             elif(gedcom_out[j][1] == 'DEAT' and gedcom_out[j][2] == 'Y'):
-                lst_vals.append(('DEAT',gedcom_out[j+1][2]))
-                j+=1
+                lst_vals.append(('DEAT', gedcom_out[j+1][2]))
+                j += 1
             elif(gedcom_out[j][1] == 'FAMS' or gedcom_out[j][1] == 'FAMC'):
-                lst_vals.append((gedcom_out[j][1],gedcom_out[j][2][1:-1]))
+                lst_vals.append((gedcom_out[j][1], gedcom_out[j][2][1:-1]))
             else:
-                lst_vals.append((gedcom_out[j][1],gedcom_out[j][2]))
-            j+=1
-        dictIndi.update({key : lst_vals})
+                lst_vals.append((gedcom_out[j][1], gedcom_out[j][2]))
+            j += 1
+        dictIndi.update({key: lst_vals})
         if(flag == 1):
             break
 
-#individuals dataframe
-df_indi = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouce'])
-name,gender,birt,deat = "","","",""
+# individuals dataframe
+df_indi = pd.DataFrame(columns=[
+                       'ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouce'])
+name, gender, birt, deat = "", "", "", ""
 alive = False
 for key, value in dictIndi.items():
     age = 0
     for i in range(len(value)):
-        famc,fams = "",""
+        famc, fams = "", ""
         if(value[i][0] == 'NAME'):
             name = value[i][1]
         if(value[i][0] == 'SEX'):
@@ -104,49 +106,50 @@ for key, value in dictIndi.items():
             famc = value[i][1]
         if(value[i][0] == 'FAMS'):
             fams = value[i][1]
-    if (any('DEAT' in i for i in value)) :
+    if (any('DEAT' in i for i in value)):
         alive = True
         age = relativedelta(deat, birt).years
     else:
-        age = relativedelta(datetime.datetime.now(),birt).years
+        age = relativedelta(datetime.datetime.now(), birt).years
 
-
-    df_indi = df_indi.append({'ID': key,'Name':name,'Gender':gender,'Birthday':birt,'Alive':alive,'Death':deat,'Child':famc,'Spouce':fams, 'Age':age }, ignore_index=True)
+    df_indi = df_indi.append({'ID': key, 'Name': name, 'Gender': gender, 'Birthday': birt,
+                              'Alive': alive, 'Death': deat, 'Child': famc, 'Spouce': fams, 'Age': age}, ignore_index=True)
     df_indi = (df_indi.replace(r'^\s*$', 'NA', regex=True))
 
 flag = 0
 for i in range(len(gedcom_out)):
     if(i > 1000):
-      break
+        break
     lst_vals = []
-    j=i+1
-    if(gedcom_out[i][1] == 'FAM' and gedcom_out[i][0] == '0'):    
+    j = i+1
+    if(gedcom_out[i][1] == 'FAM' and gedcom_out[i][0] == '0'):
         while(j < len(gedcom_out)):
             key = gedcom_out[i][2][1:-1]
-            #husb wife child extract
-            if(gedcom_out[j][1] !='MARR' and gedcom_out[j][1] !='DIV' and gedcom_out[j][1] !='DATE' and gedcom_out[j][1] !='FAM'):
-                lst_vals.append((gedcom_out[j][1],gedcom_out[j][2][1:-1]))
-            #married date extract
+            # husb wife child extract
+            if(gedcom_out[j][1] != 'MARR' and gedcom_out[j][1] != 'DIV' and gedcom_out[j][1] != 'DATE' and gedcom_out[j][1] != 'FAM'):
+                lst_vals.append((gedcom_out[j][1], gedcom_out[j][2][1:-1]))
+            # married date extract
             elif(gedcom_out[j][1] == 'MARR' and len(gedcom_out[j+1]) > 2):
-                lst_vals.append(('MARR',gedcom_out[j+1][2]))
-            #divo date extract
+                lst_vals.append(('MARR', gedcom_out[j+1][2]))
+            # divo date extract
             elif(gedcom_out[j][1] == 'DIV' and len(gedcom_out[j+1]) > 2):
-                lst_vals.append(('DIV',gedcom_out[j+1][2]))   
-            #if next fam then break
+                lst_vals.append(('DIV', gedcom_out[j+1][2]))
+            # if next fam then break
             elif(gedcom_out[j][1] == 'FAM' and gedcom_out[j][0] == '0'):
                 flag = 1
                 break
-            j+=1
-        dictFam.update({key : lst_vals})
+            j += 1
+        dictFam.update({key: lst_vals})
 
-#Families dataframe 
-husb_id,wife_id = 0,0
-husb_name,wife_name = "",""
+# Families dataframe
+husb_id, wife_id = 0, 0
+husb_name, wife_name = "", ""
 child = []
-df_fam = pd.DataFrame(columns=['ID','Married','Divorced', 'Husband ID','Husband Name','Wife ID','Wife Name','Children'])
+df_fam = pd.DataFrame(columns=['ID', 'Married', 'Divorced',
+                               'Husband ID', 'Husband Name', 'Wife ID', 'Wife Name', 'Children'])
 for key, value in dictFam.items():
     child = []
-    married,div = "",""
+    married, div = "", ""
     for i in range(len(value)):
         if(value[i][0] == 'HUSB'):
             husb_id = value[i][1]
@@ -162,8 +165,9 @@ for key, value in dictFam.items():
         if(value[i][0] == 'DIV'):
             div = value[i][1]
             div = datetime.datetime.strptime(div, '%d %b %Y').date()
-            
-    df_fam = df_fam.append({'ID': key,'Married':married,'Divorced':div,'Husband ID':husb_id,'Husband Name':husb_name,'Wife ID':wife_id,'Wife Name':wife_name, 'Children':child, }, ignore_index=True)
+
+    df_fam = df_fam.append({'ID': key, 'Married': married, 'Divorced': div, 'Husband ID': husb_id,
+                            'Husband Name': husb_name, 'Wife ID': wife_id, 'Wife Name': wife_name, 'Children': child, }, ignore_index=True)
     df_fam = (df_fam.replace(r'^\s*$', 'NA', regex=True))
 
 print("Individuals")
@@ -171,34 +175,75 @@ print(tabulate(df_indi, headers='keys', tablefmt='psql'))
 print("Families")
 print(tabulate(df_fam, headers='keys', tablefmt='psql'))
 
-#User Story 03 : VJ
-#Birth before Death
+# User Story 03 : VJ
+# Birth before Death
+
+
 def us03():
-  df_copy = df_indi.copy()
-  todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-  todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
-  df_copy = df_copy.replace({'Death':'NA'},todayDate)
+    df_copy = df_indi.copy()
+    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
 
-  correct = []
-  error = []
-  for i,j in df_copy.iterrows():
-    if df_copy['Death'][i] > df_copy['Birthday'][i]:
-      correct.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a CORRECT Birthdate with respect to Deathdate")
-    else:
-      error.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] + " has a ERRORNEOUS Birthdate with respect to Deathdate")
-  return error
+    correct = []
+    error = []
+    for i, j in df_copy.iterrows():
+        if df_copy['Death'][i] > df_copy['Birthday'][i]:
+            correct.append(df_copy['ID'][i] + " : " + df_copy['Name']
+                           [i] + " has a CORRECT Birthdate with respect to Deathdate")
+        else:
+            error.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] +
+                         " has a ERRORNEOUS Birthdate with respect to Deathdate")
+    return error
 
-#User Story 04 : VJ
-#Marriage before Divorce
+# User Story 04 : VJ
+# Marriage before Divorce
+
+
 def us04():
-  df_copy = df_fam.copy()
-  correct = []
-  error = []
-  for i,j in df_copy.iterrows():
-    if df_copy['Divorced'][i] == 'NA' or df_copy['Married'][i] == 'NA':
-      continue
-    if df_copy['Divorced'][i] > df_copy['Married'][i]:
-      correct.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a CORRECT Marriage date with respect to Divorced date")
+    df_copy = df_fam.copy()
+    correct = []
+    error = []
+    for i, j in df_copy.iterrows():
+        if df_copy['Divorced'][i] == 'NA' or df_copy['Married'][i] == 'NA':
+            continue
+        if df_copy['Divorced'][i] > df_copy['Married'][i]:
+            correct.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " +
+                           df_copy['Wife Name'][i] + " have a CORRECT Marriage date with respect to Divorced date")
+        else:
+            error.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " +
+                         df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")
+    return error
+
+##########__________________Sanket's Code__________________########################
+
+
+def US07():  # US07
+    df_death = df_indi[(df_indi['Age'] > 150)]
+    if df_death.empty:
+        return('No Errors')
     else:
-      error.append(df_copy['ID'][i] + " : " + df_copy['Husband Name'][i] + " and " + df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")  
-  return error
+        return(df_death)
+
+
+print(US07())
+
+
+def US08():
+    errors = []
+    for index, col in df_fam.iterrows():
+        id = col['ID']
+        marr = col['Married']
+        child = col['Children']
+        div = col['Divorced']
+        for i, c in df_indi.iterrows():
+            if(marr != 'NA'):
+                if((c['Birthday'] < marr) and (c['ID'] in child)):
+                    errors.append((c['ID']))
+    if errors:
+        return(errors)
+    else:
+        return('No Errors')
+
+
+print(US08())
