@@ -10,7 +10,6 @@ Original file is located at
 from datetime import datetime  # US08
 import pandas as pd
 import datetime
-import dateutil.relativedelta
 from dateutil.relativedelta import relativedelta
 from tabulate import tabulate
 
@@ -176,8 +175,6 @@ print(tabulate(df_indi, headers='keys', tablefmt='psql'))
 print("Families")
 print(tabulate(df_fam, headers='keys', tablefmt='psql'))
 
-##########__________________ Vedadnya's Code__________________###########
-
 # User Story 03 : VJ
 # Birth before Death
 
@@ -198,7 +195,7 @@ def us03():
             error.append(df_copy['ID'][i] + " : " + df_copy['Name'][i] +
                          " has a ERRORNEOUS Birthdate with respect to Deathdate")
     return error
-
+print()
 # User Story 04 : VJ
 # Marriage before Divorce
 
@@ -218,92 +215,91 @@ def us04():
                          df_copy['Wife Name'][i] + " have a ERRORNEOUS Marriage date with respect to Divorced date")
     return error
 
-#############__________________Pranav's Code__________________###############
+##########__________________Pranav's Code__________________########################
 
 # User Story 05: Marriage before death
-
-
 def us_05_marriage_before_death():
-
-    df_us_05 = pd.DataFrame(columns=[
-                            'ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse'])
+    
+    df_copy = df_indi.copy()
+    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
+    
+    df_us_05 = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouse'])
     for index, col in df_fam.iterrows():
         husb_id = col["Husband ID"]
         marriage_date = col['Married']
         wife_id = col["Wife ID"]
-
-        for index, col in df_indi.iterrows():
+        
+        for index, col in df_copy.iterrows():
             # check if indi id matches with hus_id or wife_id
             if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
-                # given condition if marriage exists, death exists
-                if ((marriage_date != "NA") and (col["Alive"] is not True) and (col["Death"] > marriage_date)):
+            # given condition if marriage exists, death exists
+                if ((marriage_date != "NA") and (col["Death"] != "NA") and (col["Alive"] is not True) and (col["Death"] > marriage_date)):
                     df_us_05 = df_us_05.append(col)
-
-    error = pd.concat([df_us_05, df_indi]).drop_duplicates(keep=False)
+    
+    error = pd.concat([df_us_05,df_copy]).drop_duplicates(keep=False)
     df_us_05['Outcome'] = True
     error['Outcome'] = False
-
+    
     result = df_us_05.append(error, ignore_index=True)
     result = result.sort_values(by=['ID'], ascending=True)
     print("\n")
     print("USER STORY 05 TEST : ")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            print(j["ID"] + " : " + j["Name"] +
-                  " has a CORRECT marriage with respect to Death")
+            print(j["ID"] + " : " + j["Name"] + " has a CORRECT marriage with respect to Death")
         else:
-            print(j["ID"] + " : " + j["Name"] +
-                  " has an ERRORNEOUS marriage with respect to Death")
+            print(j["ID"] + " : " + j["Name"] + " has an ERRORNEOUS marriage with respect to Death")
     return ('')
-
 
 print(us_05_marriage_before_death())
 
-
+                            
 # User Story 06: divorce before death
 def us_06_divorce_before_death():
-    df_us_06 = pd.DataFrame(columns=[
-                            'ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse'])
+    
+    df_copy = df_indi.copy()
+    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
+    
+    df_us_06 = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouse'])
     for index, col in df_fam.iterrows():
         husb_id = col["Husband ID"]
         divorce_date = col['Divorced']
         wife_id = col["Wife ID"]
-
-        for index, col in df_indi.iterrows():
+        
+        for index, col in df_copy.iterrows():
             # check if indi id matches with hus_id or wife_id
             if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
-                # given condition if divorce exists, death exists
+            # given condition if divorce exists, death exists
                 if ((divorce_date != "NA") and (col["Alive"] is not True) and (col["Death"] > divorce_date)):
-                    df_us_06 = df_us_06.append(col)
-
-    error = pd.concat([df_us_06, df_indi]).drop_duplicates(keep=False)
+                            df_us_06 = df_us_06.append(col)
+    
+    error = pd.concat([df_us_06,df_copy]).drop_duplicates(keep=False)
     df_us_06['Outcome'] = True
     error['Outcome'] = False
-
+    
     result = df_us_06.append(error, ignore_index=True)
     result = result.sort_values(by=['ID'], ascending=True)
     print("\n")
     print("USER STORY 06 TEST : ")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            print(j["ID"] + " : " + j["Name"] +
-                  " has a CORRECT divorce with respect to Death")
+            print(j["ID"] + " : " + j["Name"] + " has a CORRECT divorce with respect to Death")
         else:
-            print(j["ID"] + " : " + j["Name"] +
-                  " has an ERRORNEOUS divorce with respect to Death")
+            print(j["ID"] + " : " + j["Name"] + " has an ERRORNEOUS divorce with respect to Death")
     return ('')
-
 
 print(us_06_divorce_before_death())
 
 
-#############__________________Sanket's Code__________________###############
 
-# US07 : SP
-# Less then 150 years old
+##########__________________Sanket's Code__________________########################
 
 
-def US07():
+def US07():  # US07
     df_death = df_indi[(df_indi['Age'] > 150)]
     if df_death.empty:
         return('No Errors')
@@ -313,9 +309,6 @@ def US07():
 
 print(US07())
 
-
-# US08 : SP
-# Birth before marriage of parents
 
 def US08():
     errors = []
@@ -327,10 +320,6 @@ def US08():
         for i, c in df_indi.iterrows():
             if(marr != 'NA'):
                 if((c['Birthday'] < marr) and (c['ID'] in child)):
-                    errors.append((c['ID']))
-            if(marr != 'NA' and div != 'NA'):
-                check = div + dateutil.relativedelta.relativedelta(months=9)
-                if((c['Birthday'] > check) and (c['ID'] in child)):
                     errors.append((c['ID']))
     if errors:
         return(errors)
