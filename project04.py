@@ -333,7 +333,6 @@ def US07():
 print("User story 07 output:")
 print(US07())
 
-
 # US08 : SP
 # Birth before marriage of parents
 
