@@ -176,6 +176,8 @@ print(tabulate(df_indi, headers='keys', tablefmt='psql'))
 print("Families")
 print(tabulate(df_fam, headers='keys', tablefmt='psql'))
 
+##########__________________Vedadnya's Code__________________########################
+
 # User Story 03 : VJ
 # Birth before Death
 
@@ -198,7 +200,9 @@ def us03():
     return error
 
 
+print("User story 03 output:")
 print(us03())
+print('\n')
 
 # User Story 04 : VJ
 # Marriage before Divorce
@@ -220,6 +224,7 @@ def us04():
     return error
 
 
+print("User story 04 output:")
 print(us04())
 
 ##########__________________Pranav's Code__________________########################
@@ -248,7 +253,8 @@ def us_05_marriage_before_death():
                 if ((marriage_date != "NA") and (col["Death"] != "NA") and (col["Alive"] is not True) and (col["Death"] > marriage_date)):
                     df_us_05 = df_us_05.append(col)
 
-    error = pd.concat([df_us_05, df_copy],sort = False).drop_duplicates(keep=False)
+    error = pd.concat([df_us_05, df_copy],
+                      sort=False).drop_duplicates(keep=False)
     df_us_05['Outcome'] = True
     error['Outcome'] = False
 
@@ -292,7 +298,8 @@ def us_06_divorce_before_death():
                 if ((divorce_date != "NA") and (col["Alive"] is not True) and (col["Death"] > divorce_date)):
                     df_us_06 = df_us_06.append(col)
 
-    error = pd.concat([df_us_06, df_copy],sort =False).drop_duplicates(keep=False)
+    error = pd.concat([df_us_06, df_copy],
+                      sort=False).drop_duplicates(keep=False)
     df_us_06['Outcome'] = True
     error['Outcome'] = False
 
@@ -332,6 +339,7 @@ def US07():
 
 print("User story 07 output:")
 print(US07())
+print('\n')
 
 # US08 : SP
 # Birth before marriage of parents
