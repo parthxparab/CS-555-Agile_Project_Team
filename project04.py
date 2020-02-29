@@ -282,6 +282,7 @@ def us_06_divorce_before_death():
     for index, col in df_fam.iterrows():
         husb_id = col["Husband ID"]
         divorce_date = col['Divorced']
+        marriage_date = col['Married']
         wife_id = col["Wife ID"]
 
         for index, col in df_copy.iterrows():
