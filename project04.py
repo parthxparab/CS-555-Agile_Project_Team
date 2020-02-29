@@ -362,3 +362,55 @@ def US08():
 
 print("User story 08 output:")
 print(US08())
+
+#############__________________Parth's Code__________________###############
+
+# US01 : PP
+# Dates before current date
+
+def US01():
+    todayDate = datetime.datetime.strptime(datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
+    counter = 0
+    for i in range(len(df_indi)):
+        if(df_indi['Birthday'][i] != 'NA' and df_indi['Birthday'][i] > todayDate):
+            birthday = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] +')' + ' is ' + str(df_indi.loc[i]['Birthday']) + ' which is more than the current date ' + str(todayDate)
+            print(birthday)
+            counter += 1
+        elif(df_indi['Death'][i] != 'NA' and df_indi['Death'][i] > todayDate):
+            deathdate = 'Deathdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] +')' + ' is ' + str(df_indi.loc[i]['Death']) + ' which is more than the current date ' + str(todayDate)
+            print(deathdate)
+            counter += 1
+    for i in range(len(df_fam)):
+        if(df_fam['Married'][i] != 'NA' and df_fam['Married'][i] > todayDate):
+            married = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] +')'+' and '+ df_fam.loc[i]['Wife Name']+'('+'ID: '+df_fam.loc[i]['Wife ID'] +')' + ' is ' + str(df_fam.loc[i]['Married']) + ' which is more than the current date ' + str(todayDate)
+            print(married)
+            counter += 1
+        elif(df_fam['Divorced'][i] != 'NA' and df_fam['Divorced'][i] > todayDate):
+            divorced = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] +')'+' and '+ df_fam.loc[i]['Wife Name']+'('+'ID: '+df_fam.loc[i]['Wife ID'] +')' + ' is ' + str(df_fam.loc[i]['Married']) + ' which is more than the current date ' + str(todayDate)
+            print(divorced)       
+            counter += 1
+    if(counter > 0):
+        return ('Number of Entries found: ' + str(counter))
+    else:
+        return('No records found')
+        
+print("\nUser Story 01 : Dates before current date\n")
+print(US01())
+
+# US02 : PP
+# Dates Birth before marriage
+
+def US02():
+    count = 0
+    for i in range(len(df_indi)):
+        if(df_indi['Birthday'][i] != 'NA' and df_indi['Spouce'][i] != 'NA' and (df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) > (df_indi['Birthday'][i])):
+            print_line = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] +')' + ' is ' + str(df_indi.loc[i]['Birthday']) + ' which is before their marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
+            count +=1
+            print(print_line)
+    if(count > 0):
+        return ('Number of Entries found: ' + str(count))
+    else:
+        return('No records found')
+            
+print("\nUser Story 02: Dates Birth before marriage\n")
+print(US02())
