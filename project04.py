@@ -229,8 +229,6 @@ print(us04())
 
 ##########__________________Pranav's Code__________________########################
 
-# User Story 05: Marriage before death
-
 
 # User Story 05: Marriage before death
 def us_05_marriage_before_death():
