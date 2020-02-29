@@ -248,7 +248,7 @@ def us_05_marriage_before_death():
                 if ((marriage_date != "NA") and (col["Death"] != "NA") and (col["Alive"] is not True) and (col["Death"] > marriage_date)):
                     df_us_05 = df_us_05.append(col)
 
-    error = pd.concat([df_us_05, df_copy]).drop_duplicates(keep=False)
+    error = pd.concat([df_us_05, df_copy],sort = False).drop_duplicates(keep=False)
     df_us_05['Outcome'] = True
     error['Outcome'] = False
 
@@ -292,7 +292,7 @@ def us_06_divorce_before_death():
                 if ((divorce_date != "NA") and (col["Alive"] is not True) and (col["Death"] > divorce_date)):
                     df_us_06 = df_us_06.append(col)
 
-    error = pd.concat([df_us_06, df_copy]).drop_duplicates(keep=False)
+    error = pd.concat([df_us_06, df_copy],sort =False).drop_duplicates(keep=False)
     df_us_06['Outcome'] = True
     error['Outcome'] = False
 
