@@ -17,7 +17,7 @@ from pandas._libs.tslibs.offsets import relativedelta
 justLines = []
 dictIndi = {}
 dictFam = {}
-with open('Project02.ged') as f:
+with open('Project04.ged') as f:
     lines = f.read().splitlines()
     justLines.append(lines)
 lines = [[el] for el in lines]
