@@ -192,15 +192,17 @@ def us03():
     error = []
     for i, j in df_copy.iterrows():
         if df_copy['Death'][i] > df_copy['Birthday'][i]:
-            correct.append("CORRECT: " + "INDIVIDUAL: " + "US03: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a correct Birthdate: " + str(df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US03: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a correct Birthdate: " + str(
+                df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
         else:
-            error.append("ERROR: " + "INDIVIDUAL: " + "US03: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a future Birthdate: " + str(df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
+            error.append("ERROR: " + "INDIVIDUAL: " + "US03: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a future Birthdate: " + str(
+                df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
     return error
 
 
 print("\n\n\nUser story 03 output:\n\n")
 us03Error = us03()
-print(*us03Error, sep = "\n\n");
+print(*us03Error, sep="\n\n")
 
 # User Story 04 : VJ
 # Marriage before Divorce
@@ -214,15 +216,17 @@ def us04():
         if df_copy['Divorced'][i] == 'NA' or df_copy['Married'][i] == 'NA':
             continue
         if df_copy['Divorced'][i] > df_copy['Married'][i]:
-            correct.append("CORRECT: " + "FAMILY: " + "US04: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + " have a correct Marriage Date : " + str(df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
+            correct.append("CORRECT: " + "FAMILY: " + "US04: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + " have a correct Marriage Date : " + str(
+                df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
         else:
-            error.append("ERROR: " + "FAMILY: " + "US04: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + " have a future Marriage Date : " + str(df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
+            error.append("ERROR: " + "FAMILY: " + "US04: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + " have a future Marriage Date : " + str(
+                df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
     return error
 
 
 print("\n\n\nUser story 04 output:\n\n")
 us04Error = us04()
-print(*us04Error, sep = "\n\n");
+print(*us04Error, sep="\n\n")
 
 ##########__________________Pranav's Code__________________########################
 
