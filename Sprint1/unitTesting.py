@@ -24,16 +24,16 @@ class functionTest(unittest.TestCase):
         self.assertEqual(project04.US02(), result02)
 
     def test_userstory07(self):
-        result07 = ['I5: Robert /Barathaon/ is 154 years old which is more then 150',
-                    'I11: Olenna /Tully/ is 302 years old which is more then 150']
+        result07 = ['ERROR: INDIVIDUAL: US07: 4: I5: Robert /Barathaon/ is 154 years old which is more then 150',
+                    'ERROR: INDIVIDUAL: US07: 10: I11: Olenna /Tully/ is 302 years old which is more then 150']
         self.assertEqual(project04.US07(), result07)
 
     def test_userstory08(self):
-        result08 = ['I6: Jon /Barathaon/ is born after 9 months from divorce of parents',
-                    'I3: Cate /Laniaster/ is born before marriage of parents',
-                    'I12: Margery /Tyrell/ is born after 9 months from divorce of parents']
+        result08 = ['ERROR: FAMILY: US08: 5: I6: Jon /Barathaon/ is born after 9 months from divorce of parents',
+                    'ERROR: FAMILY: US08: 2: I3: Cate /Laniaster/ is born before marriage of parents',
+                    'ERROR: FAMILY: US08: 11: I12: Margery /Tyrell/ is born after 9 months from divorce of parents']
         self.assertEqual(project04.US08(), result08)
-        
+
     def test_userstory05(self):
         result05 = ['I1 : Arya /Stark/ has an ERRORNEOUS marriage with respect to Death',
                     'I12 : Margery /Tyrell/ has an ERRORNEOUS marriage with respect to Death',
@@ -43,17 +43,18 @@ class functionTest(unittest.TestCase):
                     'I7 : Jamie /Lanaster/ has an ERRORNEOUS marriage with respect to Death',
                     'I9 : Raegar /Targarayen/ has an ERRORNEOUS marriage with respect to Death']
         self.assertEqual(project04.us_05_marriage_before_death(), result05)
-    
+
     def test_userstory06(self):
-       result06 = ['I1 : Arya /Stark/ has an ERRORNEOUS divorce with respect to Death',
-                   'I10 : Ramsay /Tyrell/ has an ERRORNEOUS divorce with respect to Death',
-                   'I12 : Margery /Tyrell/ has an ERRORNEOUS divorce with respect to Death',
-                   'I2 : Ned /Stark/ has an ERRORNEOUS divorce with respect to Death',
-                   'I4 : Robb /Stark/ has an ERRORNEOUS divorce with respect to Death',
-                   'I5 : Robert /Barathaon/ has an ERRORNEOUS divorce with respect to Death',
-                   'I6 : Jon /Barathaon/ has an ERRORNEOUS divorce with respect to Death',
-                   'I9 : Raegar /Targarayen/ has an ERRORNEOUS divorce with respect to Death']
-       self.assertEqual(project04.us_06_divorce_before_death(), result06)
+        result06 = ['I1 : Arya /Stark/ has an ERRORNEOUS divorce with respect to Death',
+                    'I10 : Ramsay /Tyrell/ has an ERRORNEOUS divorce with respect to Death',
+                    'I12 : Margery /Tyrell/ has an ERRORNEOUS divorce with respect to Death',
+                    'I2 : Ned /Stark/ has an ERRORNEOUS divorce with respect to Death',
+                    'I4 : Robb /Stark/ has an ERRORNEOUS divorce with respect to Death',
+                    'I5 : Robert /Barathaon/ has an ERRORNEOUS divorce with respect to Death',
+                    'I6 : Jon /Barathaon/ has an ERRORNEOUS divorce with respect to Death',
+                    'I9 : Raegar /Targarayen/ has an ERRORNEOUS divorce with respect to Death']
+        self.assertEqual(project04.us_06_divorce_before_death(), result06)
+
 
 if __name__ == '__main__':
     unittest.main()
