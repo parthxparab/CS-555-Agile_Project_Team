@@ -4,15 +4,11 @@ import project04
 
 class functionTest(unittest.TestCase):
     def test_userstory03(self):
-        result03 = ['I4 : Robb /Stark/ has a ERRORNEOUS Birthdate with respect to Deathdate',
-                    'I6 : Jon /Barathaon/ has a ERRORNEOUS Birthdate with respect to Deathdate',
-                    'I9 : Raegar /Targarayen/ has a ERRORNEOUS Birthdate with respect to Deathdate',
-                    'I12 : Margery /Tyrell/ has a ERRORNEOUS Birthdate with respect to Deathdate']
+        result03 = ['ERROR: INDIVIDUAL: US03: 3:  I4: Robb /Stark/ has a future Birthdate: 1960-04-04 with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US03: 5:  I6: Jon /Barathaon/ has a future Birthdate: 2050-07-10 with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US03: 8:  I9: Raegar /Targarayen/ has a future Birthdate: 1940-07-08 with respect to Deathdate: 1920-09-08', 'ERROR: INDIVIDUAL: US03: 11:  I12: Margery /Tyrell/ has a future Birthdate: 1967-07-09 with respect to Deathdate: 1966-01-08']
         self.assertEqual(project04.us03(), result03)
 
     def test_userstory04(self):
-        result04 = ['F2 : Robert /Barathaon/ and Cate /Laniaster/ have a ERRORNEOUS Marriage date with respect to Divorced date',
-                    'F3 : Jamie /Lanaster/ and Cercie /Tyrell/ have a ERRORNEOUS Marriage date with respect to Divorced date']
+        result04 = ['ERROR: FAMILY: US04: 1:  F2:  have a future Marriage Date : 1980-04-05 with respect to Divorced Date : 1970-12-11', 'ERROR: FAMILY: US04: 2:  F3:  have a future Marriage Date : 2090-06-20 with respect to Divorced Date : 1955-01-13']
         self.assertEqual(project04.us04(), result04)
 
     def test_userstory01(self):
