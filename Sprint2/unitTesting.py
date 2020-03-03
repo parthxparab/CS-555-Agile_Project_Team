@@ -16,7 +16,7 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.us17(), result17)
 
     def test_userstory18(self):
-        result18 = []
+        result18 = ['ERROR: FAMILY: US18: 0:  F1: Siblings I4 and I1 are married','ERROR: FAMILY: US18: 7:  F8: Siblings I15 and I16 are married']
         self.assertEqual(parser.us18(), result18)
 
     def test_userstory01(self):
