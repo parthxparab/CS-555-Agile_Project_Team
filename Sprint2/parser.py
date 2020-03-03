@@ -232,7 +232,22 @@ print(*us04Error, sep="\n\n")
 # No marriages to children
 
 def us17():
+    df_copy = df_fam.copy()
     error = []
+    for k in range(0,df_copy.shape[0]):
+        for i, j in df_copy.iterrows():
+            if df_copy['Husband ID'][i] in df_copy['Children'][k]:
+                if df_copy['Wife ID'][i] == df_copy['Wife ID'][k]:
+                    error.append("ERROR: " + "FAMILY: " + "US17: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + "Parent " + df_copy['Husband ID'][i] + " is married to their child : " + df_copy['Wife ID'][i])
+                else:
+                    continue
+            elif df_copy['Wife ID'][i] in df_copy['Children'][k]:
+                if df_copy['Husband ID'][i] == df_copy['Husband ID'][k]:
+                    error.append("ERROR: " + "FAMILY: " + "US17: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + "Parent " + df_copy['Husband ID'][i] + " is married to their child : " + df_copy['Wife ID'][i])
+                else:
+                    continue
+            else:
+                continue
     return error
 
 print("\n\n\nUser story 17 output:\n\n")
