@@ -201,7 +201,7 @@ def us03():
 
 print("\n\n\nUser story 03 output:\n\n")
 us03Error = us03()
-print(*us03Error, sep="\n\n")
+print(*us03Error, sep="\n")
 
 # User Story 04 : VJ
 # Marriage before Divorce
@@ -225,7 +225,7 @@ def us04():
 
 print("\n\n\nUser story 04 output:\n\n")
 us04Error = us04()
-print(*us04Error, sep="\n\n")
+print(*us04Error, sep="\n")
 
 
 # User Story 17 : VJ
@@ -252,7 +252,7 @@ def us17():
 
 print("\n\n\nUser story 17 output:\n\n")
 us17Error = us17()
-print(*us17Error, sep = "\n\n")
+print(*us17Error, sep = "\n")
 
 
 # User Story 18 : VJ
@@ -274,7 +274,7 @@ def us18():
 
 print("\n\n\nUser story 18 output:\n\n")
 us18Error = us18()
-print(*us18Error, sep = "\n\n")
+print(*us18Error, sep = "\n")
 
 
 ##########__________________Pranav's Code__________________########################
