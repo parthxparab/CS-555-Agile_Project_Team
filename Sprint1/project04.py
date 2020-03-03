@@ -202,7 +202,7 @@ def us03():
 
 print("\n\n\nUser story 03 output:\n\n")
 us03Error = us03()
-print(*us03Error, sep="\n\n")
+print(*us03Error, sep="\n")
 
 # User Story 04 : VJ
 # Marriage before Divorce
@@ -226,7 +226,7 @@ def us04():
 
 print("\n\n\nUser story 04 output:\n\n")
 us04Error = us04()
-print(*us04Error, sep="\n\n")
+print(*us04Error, sep="\n")
 
 
 ##########__________________Pranav's Code__________________########################
