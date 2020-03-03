@@ -11,6 +11,14 @@ class functionTest(unittest.TestCase):
         result04 = ['ERROR: FAMILY: US04: 2:  F3:  have a future Marriage Date : 1980-04-05 with respect to Divorced Date : 1970-12-11', 'ERROR: FAMILY: US04: 3:  F4:  have a future Marriage Date : 2090-06-20 with respect to Divorced Date : 1955-01-13']
         self.assertEqual(parser.us04(), result04)
 
+    def test_userstory17(self):
+        result17 = []
+        self.assertEqual(project04.us17(), result17)
+
+    def test_userstory18(self):
+        result18 = []
+        self.assertEqual(project04.us18(), result18)
+
     def test_userstory01(self):
         result01 = 'Number of Entries found: 3'
         self.assertEqual(parser.US01(), result01)
