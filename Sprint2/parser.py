@@ -231,11 +231,17 @@ print(*us04Error, sep="\n\n")
 # User Story 17 : VJ
 # No marriages to children
 
+def us17():
+    error = []
+    return error
+
 
 # User Story 18 : VJ
 # Siblings should not marry
 
-
+def us18():
+    error = []
+    return error
 
 
 
