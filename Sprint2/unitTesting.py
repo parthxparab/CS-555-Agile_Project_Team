@@ -13,11 +13,11 @@ class functionTest(unittest.TestCase):
 
     def test_userstory17(self):
         result17 = []
-        self.assertEqual(project04.us17(), result17)
+        self.assertEqual(parser.us17(), result17)
 
     def test_userstory18(self):
         result18 = []
-        self.assertEqual(project04.us18(), result18)
+        self.assertEqual(parser.us18(), result18)
 
     def test_userstory01(self):
         result01 = 'Number of Entries found: 3'
