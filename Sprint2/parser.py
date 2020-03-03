@@ -259,7 +259,17 @@ print(*us17Error, sep = "\n\n")
 # Siblings should not marry
 
 def us18():
+    df_copy = df_fam.copy()
     error = []
+    for i, j in df_copy.iterrows():
+        for item in df_copy['Children']:
+            if df_copy['Husband ID'][i] in item:
+                if df_copy['Wife ID'][i] in item:
+                    error.append("ERROR: " + "FAMILY: " + "US18: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + "Siblings " + df_copy['Husband ID'][i] + " and " + df_copy['Wife ID'][i] + " are married")
+                else:
+                    continue
+            else:
+                continue
     return error
 
 print("\n\n\nUser story 18 output:\n\n")
