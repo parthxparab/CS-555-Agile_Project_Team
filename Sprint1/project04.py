@@ -192,15 +192,17 @@ def us03():
     error = []
     for i, j in df_copy.iterrows():
         if df_copy['Death'][i] > df_copy['Birthday'][i]:
-            correct.append("CORRECT: " + "INDIVIDUAL: " + "US03: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a correct Birthdate: " + str(df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US03: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a correct Birthdate: " + str(
+                df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
         else:
-            error.append("ERROR: " + "INDIVIDUAL: " + "US03: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a future Birthdate: " + str(df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
+            error.append("ERROR: " + "INDIVIDUAL: " + "US03: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + df_copy['Name'][i] + " has a future Birthdate: " + str(
+                df_copy['Birthday'][i]) + " with respect to Deathdate: " + str(df_copy['Death'][i]))
     return error
 
 
 print("\n\n\nUser story 03 output:\n\n")
 us03Error = us03()
-print(*us03Error, sep = "\n\n");
+print(*us03Error, sep="\n\n")
 
 # User Story 04 : VJ
 # Marriage before Divorce
@@ -214,15 +216,17 @@ def us04():
         if df_copy['Divorced'][i] == 'NA' or df_copy['Married'][i] == 'NA':
             continue
         if df_copy['Divorced'][i] > df_copy['Married'][i]:
-            correct.append("CORRECT: " + "FAMILY: " + "US04: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + " have a correct Marriage Date : " + str(df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
+            correct.append("CORRECT: " + "FAMILY: " + "US04: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + " have a correct Marriage Date : " + str(
+                df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
         else:
-            error.append("ERROR: " + "FAMILY: " + "US04: " + str(i) +": " + " " + df_copy['ID'][i] + ": " + " have a future Marriage Date : " + str(df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
+            error.append("ERROR: " + "FAMILY: " + "US04: " + str(i) + ": " + " " + df_copy['ID'][i] + ": " + " have a future Marriage Date : " + str(
+                df_copy['Married'][i]) + " with respect to Divorced Date : " + str(df_copy['Divorced'][i]))
     return error
 
 
 print("\n\n\nUser story 04 output:\n\n")
 us04Error = us04()
-print(*us04Error, sep = "\n\n");
+print(*us04Error, sep="\n\n")
 
 
 ##########__________________Pranav's Code__________________########################
@@ -230,106 +234,119 @@ print(*us04Error, sep = "\n\n");
 
 # User Story 05: Marriage before death
 def us_05_marriage_before_death():
-    
-    df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
-    df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
-    correct =[]
-    wrong = []
-    
-    df_us_05 = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouse'])
-    for index, col in df_fam.iterrows():
-        husb_id = col["Husband ID"]
-        marriage_date = col['Married']
-        wife_id = col["Wife ID"]
-        
-        for index, col in df_copy.iterrows():
-            # check if indi id matches with hus_id or wife_id
-            if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
-            # given condition if marriage exists, death exists
-                if ((marriage_date != "NA") and (col["Death"] > marriage_date)):
-                    df_us_05 = df_us_05.append(col)
-    
-    error = pd.concat([df_us_05,df_copy], sort=False).drop_duplicates(keep=False)
-    df_us_05['Outcome'] = True
-    error['Outcome'] = False
-    
-    result = df_us_05.append(error, ignore_index=True)
-    result = result.sort_values(by=['ID'], ascending=True)
-    print("\n")
-    for i, j in result.iterrows():
-        if j["Outcome"] is True:
-            correct.append(j["ID"] + " : " + j["Name"] + " has a CORRECT marriage with respect to Death")
-        else:
-            wrong.append(j["ID"] + " : " + j["Name"] + " has an ERRORNEOUS marriage with respect to Death")
-    return wrong
 
-print("\n")
-print("USER STORY 05 TEST : ")
-print(us_05_marriage_before_death())
-                            
-# User Story 06: divorce before death
-def us_06_divorce_before_death():
-    
     df_copy = df_indi.copy()
     todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
     todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     wrong = []
-    
-    df_us_06 = pd.DataFrame(columns=['ID','Name','Gender', 'Birthday','Age','Alive','Death','Child','Spouse'])
+
+    df_us_05 = pd.DataFrame(columns=[
+                            'ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse'])
+    for index, col in df_fam.iterrows():
+        husb_id = col["Husband ID"]
+        marriage_date = col['Married']
+        wife_id = col["Wife ID"]
+
+        for index, col in df_copy.iterrows():
+            # check if indi id matches with hus_id or wife_id
+            if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
+                # given condition if marriage exists, death exists
+                if ((marriage_date != "NA") and (col["Death"] > marriage_date)):
+                    df_us_05 = df_us_05.append(col)
+
+    error = pd.concat([df_us_05, df_copy],
+                      sort=False).drop_duplicates(keep=False)
+    df_us_05['Outcome'] = True
+    error['Outcome'] = False
+
+    result = df_us_05.append(error, ignore_index=True)
+    result = result.sort_values(by=['ID'], ascending=True)
+    print("\n")
+    for i, j in result.iterrows():
+        if j["Outcome"] is True:
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has a correct Marriage Date with respect to Deathdate: " + str(j['Death']))
+
+        else:
+            wrong.append("ERROR: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has an erroneous Marriage Date with respect to Deathdate: " + str(j['Death']))
+
+    return wrong
+
+print("\n\nUSER STORY 05 TEST :")
+us05Error = us_05_marriage_before_death()
+print(*us05Error, sep="\n\n")
+
+
+# User Story 06: divorce before death
+def us_06_divorce_before_death():
+
+    df_copy = df_indi.copy()
+    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
+    correct = []
+    wrong = []
+
+    df_us_06 = pd.DataFrame(columns=[
+                            'ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouse'])
     for index, col in df_fam.iterrows():
         husb_id = col["Husband ID"]
         divorce_date = col['Divorced']
         marriage_date = col['Married']
         wife_id = col["Wife ID"]
-        
+
         for index, col in df_copy.iterrows():
             # check if indi id matches with hus_id or wife_id
             if ((col["ID"] == husb_id) or (col["ID"] == wife_id)):
-            # given condition if divorce exists, death exists
+                # given condition if divorce exists, death exists
                 if ((divorce_date != "NA") and (marriage_date != "NA") and (col["Death"] > divorce_date)):
-                            df_us_06 = df_us_06.append(col)
-    
-    error = pd.concat([df_us_06,df_copy], sort=False).drop_duplicates(keep=False)
+                    df_us_06 = df_us_06.append(col)
+
+    error = pd.concat([df_us_06, df_copy],
+                      sort=False).drop_duplicates(keep=False)
     df_us_06['Outcome'] = True
     error['Outcome'] = False
-    
+
     result = df_us_06.append(error, ignore_index=True)
     result = result.sort_values(by=['ID'], ascending=True)
     print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            correct.append(j["ID"] + " : " + j["Name"] + " has a CORRECT divorce with respect to Death")
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has a correct Divorce Date with respect to Deathdate: " + str(j['Death']))
+
         else:
-            wrong.append(j["ID"] + " : " + j["Name"] + " has an ERRORNEOUS divorce with respect to Death")
+            wrong.append("ERROR: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has an erroneous Divorce Date with respect to Deathdate: " + str(j['Death']))
+
     return wrong
 
-print("\n")
-print("USER STORY 06 TEST : ")
-print(us_06_divorce_before_death())
+
+print("\n\nUSER STORY 06 TEST :")
+us06Error = us_06_divorce_before_death()
+print(*us06Error, sep="\n\n")
 
 ##########__________________Sanket's Code__________________########################
 
 # US07 : SP
 # Less then 150 years old
 
+
 def US07():
     errors = []
     for i, c in df_indi.iterrows():
         if (df_indi['Age'][i] > 150):
-            errors.append(c['ID']+": "+c['Name']+" is " +
+            errors.append("ERROR: "+"INDIVIDUAL: "+"US07: "+str(i)+': '+c['ID']+": "+c['Name']+" is " +
                           str(c['Age'])+" years old which is more then 150")
+            #print(*errors, sep="\n")
     if(errors):
         return(errors)
     else:
         return("No errors")
 
 
-print("User story 07 output:")
-print(US07())
+print("User story 07 output: \n")
+errorUS07 = US07()
+print(*errorUS07, sep="\n\n")
 print('\n')
 
 # US08 : SP
@@ -346,70 +363,84 @@ def US08():
         for i, c in df_indi.iterrows():
             if(marr != 'NA'):
                 if((c['Birthday'] < marr) and (c['ID'] in child)):
-                    errors.append(c['ID']+": "+c['Name'] +
+                    errors.append("ERROR: "+"FAMILY: "+"US08: "+str(i)+': '+c['ID']+": "+c['Name'] +
                                   " is born before marriage of parents")
             if(marr != 'NA' and div != 'NA'):
                 check = div + dateutil.relativedelta.relativedelta(months=9)
                 if((c['Birthday'] > check) and (c['ID'] in child)):
-                    errors.append(
-                        c['ID']+": "+c['Name']+" is born after 9 months from divorce of parents")
+                    errors.append("ERROR: "+"FAMILY: "+"US08: "+str(i)+': ' +
+                                  c['ID']+": "+c['Name']+" is born after 9 months from divorce of parents")
     if(errors):
         return(errors)
     else:
         return("No Errors")
 
 
-print("User story 08 output:")
-print(US08())
+print("User story 08 output: \n")
+errorUS08 = US08()
+print(*errorUS08, sep="\n\n")
+print('\n')
 
 #############__________________Parth's Code__________________###############
 
 # US01 : PP
 # Dates before current date
 
+
 def US01():
-    todayDate = datetime.datetime.strptime(datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
+    todayDate = datetime.datetime.strptime(
+        datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
     counter = 0
     for i in range(len(df_indi)):
         if(df_indi['Birthday'][i] != 'NA' and df_indi['Birthday'][i] > todayDate):
-            birthday = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] +')' + ' is ' + str(df_indi.loc[i]['Birthday']) + ' which is more than the current date ' + str(todayDate)
-            print(birthday,'\n')
+            birthday = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] + ')' + ' is ' + str(
+                df_indi.loc[i]['Birthday']) + ' which is more than the current date ' + str(todayDate)
+            print(birthday, '\n')
             counter += 1
         elif(df_indi['Death'][i] != 'NA' and df_indi['Death'][i] > todayDate):
-            deathdate = 'Deathdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] +')' + ' is ' + str(df_indi.loc[i]['Death']) + ' which is more than the current date ' + str(todayDate)
-            print(deathdate,'\n')
+            deathdate = 'Deathdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] + ')' + ' is ' + str(
+                df_indi.loc[i]['Death']) + ' which is more than the current date ' + str(todayDate)
+            print(deathdate, '\n')
             counter += 1
     for i in range(len(df_fam)):
         if(df_fam['Married'][i] != 'NA' and df_fam['Married'][i] > todayDate):
-            married = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] +')'+' and '+ df_fam.loc[i]['Wife Name']+'('+'ID: '+df_fam.loc[i]['Wife ID'] +')' + ' is ' + str(df_fam.loc[i]['Married']) + ' which is more than the current date ' + str(todayDate)
-            print(married,'\n')
+            married = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] + ')'+' and ' + df_fam.loc[i]['Wife Name'] + \
+                '('+'ID: '+df_fam.loc[i]['Wife ID'] + ')' + ' is ' + str(df_fam.loc[i]
+                                                                         ['Married']) + ' which is more than the current date ' + str(todayDate)
+            print(married, '\n')
             counter += 1
         elif(df_fam['Divorced'][i] != 'NA' and df_fam['Divorced'][i] > todayDate):
-            divorced = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] +')'+' and '+ df_fam.loc[i]['Wife Name']+'('+'ID: '+df_fam.loc[i]['Wife ID'] +')' + ' is ' + str(df_fam.loc[i]['Married']) + ' which is more than the current date ' + str(todayDate)
-            print(divorced,'\n')       
+            divorced = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] + ')'+' and ' + df_fam.loc[i]['Wife Name'] + \
+                '('+'ID: '+df_fam.loc[i]['Wife ID'] + ')' + ' is ' + str(df_fam.loc[i]
+                                                                         ['Married']) + ' which is more than the current date ' + str(todayDate)
+            print(divorced, '\n')
             counter += 1
     if(counter > 0):
         return ('Number of Entries found: ' + str(counter))
     else:
         return('No records found')
-        
+
+
 print("\nUser Story 01 : Dates before current date\n")
 print(US01())
 
 # US02 : PP
 # Dates Birth before marriage
 
+
 def US02():
     count = 0
     for i in range(len(df_indi)):
         if(df_indi['Birthday'][i] != 'NA' and df_indi['Spouce'][i] != 'NA' and (df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) > (df_indi['Birthday'][i])):
-            print_line = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] +')' + ' is ' + str(df_indi.loc[i]['Birthday']) + ' which is before their marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
-            count +=1
+            print_line = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] + ')' + ' is ' + str(
+                df_indi.loc[i]['Birthday']) + ' which is before their marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
+            count += 1
             print(print_line)
     if(count > 0):
         return ('Number of Entries found: ' + str(count))
     else:
         return('No records found')
-            
+
+
 print("\nUser Story 02: Dates Birth before marriage\n")
 print(US02())
