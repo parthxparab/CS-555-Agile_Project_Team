@@ -265,21 +265,19 @@ def us_05_marriage_before_death():
     print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            correct.append(j["ID"] + " : " + j["Name"] +
-                           " has a CORRECT marriage with respect to Death")
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has a correct Marriage Date with respect to Deathdate: " + str(j['Death']))
+
         else:
-            wrong.append(j["ID"] + " : " + j["Name"] +
-                         " has an ERRORNEOUS marriage with respect to Death")
+            wrong.append("ERROR: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has an erroneous Marriage Date with respect to Deathdate: " + str(j['Death']))
+
     return wrong
 
+print("\n\nUSER STORY 05 TEST :")
+us05Error = us_05_marriage_before_death()
+print(*us05Error, sep="\n\n")
 
-print("\n")
-print("USER STORY 05 TEST : ")
-print(us_05_marriage_before_death())
 
 # User Story 06: divorce before death
-
-
 def us_06_divorce_before_death():
 
     df_copy = df_indi.copy()
@@ -314,18 +312,17 @@ def us_06_divorce_before_death():
     print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            correct.append(j["ID"] + " : " + j["Name"] +
-                           " has a CORRECT divorce with respect to Death")
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has a correct Divorce Date with respect to Deathdate: " + str(j['Death']))
+
         else:
-            wrong.append(j["ID"] + " : " + j["Name"] +
-                         " has an ERRORNEOUS divorce with respect to Death")
+            wrong.append("ERROR: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has an erroneous Divorce Date with respect to Deathdate: " + str(j['Death']))
+
     return wrong
 
 
-print("\n")
-print("USER STORY 06 TEST : ")
-print(us_06_divorce_before_death())
-print('\n')
+print("\n\nUSER STORY 06 TEST :")
+us06Error = us_06_divorce_before_death()
+print(*us06Error, sep="\n\n")
 
 ##########__________________Sanket's Code__________________########################
 
