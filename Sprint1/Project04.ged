@@ -1,8 +1,8 @@
 0 HEAD
 1 SOUR Family Echo
 2 WWW http://www.familyecho.com/
-1 FILE Family 4
-1 DATE 29 FEB 2020
+1 FILE Family 5
+1 DATE 3 MAR 2020
 1 DEST ANSTFILE
 1 GEDC
 2 VERS 5.5.1
@@ -27,7 +27,7 @@
 2 _MARNM Stark
 1 SEX M
 1 BIRT
-2 DATE 8 JUN 1940
+2 DATE 8 JUN 1990
 1 FAMS @F1@
 0 @I3@ INDI
 1 NAME Cate /Laniaster/
