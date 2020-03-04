@@ -266,16 +266,20 @@ def us_05_marriage_before_death():
     print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            correct.append("CORRECT: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has a correct Marriage Date with respect to Deathdate: " + str(j['Death']))
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " +
+                           j['ID'] + ": " + j['Name'] + " has a correct Marriage Date with respect to Deathdate: " + str(j['Death']))
 
         else:
-            wrong.append("ERROR: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has an erroneous Marriage Date with respect to Deathdate: " + str(j['Death']))
+            wrong.append("ERROR: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " +
+                         j['ID'] + ": " + j['Name'] + " has an erroneous Marriage Date with respect to Deathdate: " + str(j['Death']))
 
     return wrong
 
+
 print("\n\nUSER STORY 05 TEST :")
 us05Error = us_05_marriage_before_death()
-print(*us05Error, sep="\n\n")
+print(*us05Error, sep="\n")
+print('\n')
 
 
 # User Story 06: divorce before death
@@ -313,17 +317,20 @@ def us_06_divorce_before_death():
     print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
-            correct.append("CORRECT: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has a correct Divorce Date with respect to Deathdate: " + str(j['Death']))
+            correct.append("CORRECT: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " +
+                           j['ID'] + ": " + j['Name'] + " has a correct Divorce Date with respect to Deathdate: " + str(j['Death']))
 
         else:
-            wrong.append("ERROR: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " + j['ID'] + ": " + j['Name'] + " has an erroneous Divorce Date with respect to Deathdate: " + str(j['Death']))
+            wrong.append("ERROR: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " +
+                         j['ID'] + ": " + j['Name'] + " has an erroneous Divorce Date with respect to Deathdate: " + str(j['Death']))
 
     return wrong
 
 
 print("\n\nUSER STORY 06 TEST :")
 us06Error = us_06_divorce_before_death()
-print(*us06Error, sep="\n\n")
+print(*us06Error, sep="\n")
+print('\n')
 
 ##########__________________Sanket's Code__________________########################
 
@@ -346,7 +353,7 @@ def US07():
 
 print("User story 07 output: \n")
 errorUS07 = US07()
-print(*errorUS07, sep="\n\n")
+print(*errorUS07, sep="\n")
 print('\n')
 
 # US08 : SP
@@ -378,45 +385,57 @@ def US08():
 
 print("User story 08 output: \n")
 errorUS08 = US08()
-print(*errorUS08, sep="\n\n")
+print(*errorUS08, sep="\n")
 print('\n')
 
 #############__________________Parth's Code__________________###############
 
 # US01 : PP
 # Dates before current date
+
+
 def US01():
     error = []
     no = []
-    todayDate = datetime.datetime.strptime(datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
+    todayDate = datetime.datetime.strptime(
+        datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
     counter = 0
     for i in range(len(df_indi)):
         if(df_indi['Birthday'][i] != 'NA' and df_indi['Birthday'][i] > todayDate):
-            birthday = 'ERROR: INDIVIDUAL: US01: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Birthday ' + str(df_indi.loc[i]['Birthday']) + ' occurs in the future'
+            birthday = 'ERROR: INDIVIDUAL: US01: ' + \
+                str(i)+': '+df_indi.loc[i]['ID']+': '+'Birthday ' + \
+                str(df_indi.loc[i]['Birthday']) + ' occurs in the future'
             error.append(birthday)
             counter += 1
         elif(df_indi['Death'][i] != 'NA' and df_indi['Death'][i] > todayDate):
-            deathdate = 'ERROR: INDIVIDUAL: US01: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Deathday ' + str(df_indi.loc[i]['Death']) + ' occurs in the future'
+            deathdate = 'ERROR: INDIVIDUAL: US01: ' + \
+                str(i)+': '+df_indi.loc[i]['ID']+': '+'Deathday ' + \
+                str(df_indi.loc[i]['Death']) + ' occurs in the future'
             error.append(deathdate)
             counter += 1
     for i in range(len(df_fam)):
         if(df_fam['Married'][i] != 'NA' and df_fam['Married'][i] > todayDate):
-            married = 'ERROR: FAMILY: US01: '+str(i)+': '+df_fam.loc[i]['ID']+': '+'Marriage Day '+ str(df_fam.loc[i]['Married']) +' between '+ df_fam.loc[i]['Husband ID']+' and '+df_fam.loc[i]['Wife ID'] + ' occurs in the future'
+            married = 'ERROR: FAMILY: US01: '+str(i)+': '+df_fam.loc[i]['ID']+': '+'Marriage Day ' + str(
+                df_fam.loc[i]['Married']) + ' between ' + df_fam.loc[i]['Husband ID']+' and '+df_fam.loc[i]['Wife ID'] + ' occurs in the future'
             error.append(married)
             counter += 1
         elif(df_fam['Divorced'][i] != 'NA' and df_fam['Divorced'][i] > todayDate):
-            divorced = 'ERROR: FAMILY: US01: '+str(i)+': '+df_fam.loc[i]['ID']+': '+'Divorce Day ' + str(df_fam.loc[i]['Divorced']) +' between '+ df_fam.loc[i]['Husband ID']+' and '+df_fam.loc[i]['Wife ID'] + ' occurs in the future'
+            divorced = 'ERROR: FAMILY: US01: '+str(i)+': '+df_fam.loc[i]['ID']+': '+'Divorce Day ' + str(
+                df_fam.loc[i]['Divorced']) + ' between ' + df_fam.loc[i]['Husband ID']+' and '+df_fam.loc[i]['Wife ID'] + ' occurs in the future'
             error.append(divorced)
             counter += 1
     if(counter > 0):
         return (error)
     else:
         no.append('ERROR: US01: No records found')
-        return(no)        
+        return(no)
+
+
 errorUS01 = US01()
 print(*errorUS01, sep="\n")
 # US02 : PP
 # Dates Birth before marriage
+
 
 def US02():
     count = 0
@@ -425,22 +444,26 @@ def US02():
     for i in range(len(df_indi)):
         if(df_indi['Birthday'][i] != 'NA' and df_indi['Spouce'][i] != 'NA' and (df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) < (df_indi['Birthday'][i])):
             if(df_indi['Gender'][i] == 'M'):
-                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Husband\'s birth date ' + str(df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0])
-                count +=1
+                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Husband\'s birth date ' + str(
+                    df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0])
+                count += 1
                 error.append(print_line)
             elif(df_indi['Gender'][i] == 'F'):
-                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Wife\'s birth date ' + str(df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0])
-                count +=1
+                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Wife\'s birth date ' + str(
+                    df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0])
+                count += 1
                 error.append(print_line)
             else:
-                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Individual\'s birth date ' + str(df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
-                count +=1
+                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Individual\'s birth date ' + str(
+                    df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
+                count += 1
                 error.append(print_line)
     if(count > 0):
         return (error)
     else:
         no.append('ERROR: US02: No records found')
         return(no)
-            
+
+
 errorUS02 = US02()
 print(*errorUS02, sep="\n")
