@@ -14,11 +14,13 @@ class functionTest(unittest.TestCase):
         self.assertEqual(project04.us04(), result04)
 
     def test_userstory01(self):
-        result01 = ['ERROR: INDIVIDUAL: US01: 5: I6: Birthday 2050-07-10 occurs in the future','ERROR: INDIVIDUAL: US01: 10: I11: Deathday 2222-10-28 occurs in the future','ERROR: FAMILY: US01: 2: F3: Marriage Day 2090-06-20 between I7 and I8 occurs in the future']
+        result01 = ['ERROR: INDIVIDUAL: US01: 5: I6: Birthday 2050-07-10 occurs in the future', 'ERROR: INDIVIDUAL: US01: 10: I11: Deathday 2222-10-28 occurs in the future',
+                    'ERROR: FAMILY: US01: 2: F3: Marriage Day 2090-06-20 between I7 and I8 occurs in the future']
         self.assertEqual(project04.US01(), result01)
 
     def test_userstory02(self):
-        result02 = ['ERROR: INDIVIDUAL: US02: 1: I2: Husband\'s birth date 1990-06-08 after marriage date 1950-05-10']
+        result02 = [
+            'ERROR: INDIVIDUAL: US02: 1: I2: Husband\'s birth date 1990-06-08 after marriage date 1950-05-10']
         self.assertEqual(project04.US02(), result02)
 
     def test_userstory07(self):
@@ -33,11 +35,13 @@ class functionTest(unittest.TestCase):
         self.assertEqual(project04.US08(), result08)
 
     def test_userstory05(self):
-        result05 = ['ERROR: INDIVIDUAL: US05: 8:  I1: Arya /Stark/ has an erroneous Marriage Date with respect to Deathdate: 2020-03-02', 'ERROR: INDIVIDUAL: US05: 14:  I12: Margery /Tyrell/ has an erroneous Marriage Date with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US05: 9:  I4: Robb /Stark/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US05: 10:  I5: Robert /Barathaon/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US05: 11:  I6: Jon /Barathaon/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US05: 12:  I7: Jamie /Lanaster/ has an erroneous Marriage Date with respect to Deathdate: 1990-07-12', 'ERROR: INDIVIDUAL: US05: 13:  I9: Raegar /Targarayen/ has an erroneous Marriage Date with respect to Deathdate: 1920-09-08']
+        result05 = ['ERROR: INDIVIDUAL: US05: 8:  I1: Arya /Stark/ has an erroneous Marriage Date with respect to Deathdate: 2020-03-02', 'ERROR: INDIVIDUAL: US05: 14:  I12: Margery /Tyrell/ has an erroneous Marriage Date with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US05: 9:  I4: Robb /Stark/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US05: 10:  I5: Robert /Barathaon/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14',
+                    'ERROR: INDIVIDUAL: US05: 11:  I6: Jon /Barathaon/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US05: 12:  I7: Jamie /Lanaster/ has an erroneous Marriage Date with respect to Deathdate: 1990-07-12', 'ERROR: INDIVIDUAL: US05: 13:  I9: Raegar /Targarayen/ has an erroneous Marriage Date with respect to Deathdate: 1920-09-08']
         self.assertEqual(project04.us_05_marriage_before_death(), result05)
 
     def test_userstory06(self):
-        result06 = ['ERROR: INDIVIDUAL: US06: 7:  I1: Arya /Stark/ has an erroneous Divorce Date with respect to Deathdate: 2020-03-02', 'ERROR: INDIVIDUAL: US06: 13:  I10: Ramsay /Tyrell/ has an erroneous Divorce Date with respect to Deathdate: 1947-03-25', 'ERROR: INDIVIDUAL: US06: 14:  I12: Margery /Tyrell/ has an erroneous Divorce Date with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US06: 8:  I2: Ned /Stark/ has an erroneous Divorce Date with respect to Deathdate: 2020-03-02', 'ERROR: INDIVIDUAL: US06: 9:  I4: Robb /Stark/ has an erroneous Divorce Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US06: 10:  I5: Robert /Barathaon/ has an erroneous Divorce Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US06: 11:  I6: Jon /Barathaon/ has an erroneous Divorce Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US06: 12:  I9: Raegar /Targarayen/ has an erroneous Divorce Date with respect to Deathdate: 1920-09-08']
+        result06 = ['ERROR: INDIVIDUAL: US06: 7:  I1: Arya /Stark/ has an erroneous Divorce Date with respect to Deathdate: 2020-03-02', 'ERROR: INDIVIDUAL: US06: 13:  I10: Ramsay /Tyrell/ has an erroneous Divorce Date with respect to Deathdate: 1947-03-25', 'ERROR: INDIVIDUAL: US06: 14:  I12: Margery /Tyrell/ has an erroneous Divorce Date with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US06: 8:  I2: Ned /Stark/ has an erroneous Divorce Date with respect to Deathdate: 2020-03-02',
+                    'ERROR: INDIVIDUAL: US06: 9:  I4: Robb /Stark/ has an erroneous Divorce Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US06: 10:  I5: Robert /Barathaon/ has an erroneous Divorce Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US06: 11:  I6: Jon /Barathaon/ has an erroneous Divorce Date with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US06: 12:  I9: Raegar /Targarayen/ has an erroneous Divorce Date with respect to Deathdate: 1920-09-08']
         self.assertEqual(project04.us_06_divorce_before_death(), result06)
 
 
