@@ -281,8 +281,9 @@ us05Error = us_05_marriage_before_death()
 print(*us05Error, sep="\n")
 print('\n')
 
-
 # User Story 06: divorce before death
+
+
 def us_06_divorce_before_death():
 
     df_copy = df_indi.copy()
