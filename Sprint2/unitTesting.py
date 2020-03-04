@@ -20,12 +20,12 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.us18(), result18)
 
     def test_userstory01(self):
-        result01 = 'Number of Entries found: 3'
-        self.assertEqual(parser.US01(), result01)
+        result01 = ['ERROR: INDIVIDUAL: US01: 5: I6: Birthday 2050-07-10 occurs in the future','ERROR: INDIVIDUAL: US01: 10: I11: Deathday 2222-10-28 occurs in the future','ERROR: FAMILY: US01: 2: F3: Marriage Day 2090-06-20 between I7 and I8 occurs in the future']
+        self.assertEqual(project04.US01(), result01)
 
     def test_userstory02(self):
-        result02 = 'Number of Entries found: 7'
-        self.assertEqual(parser.US02(), result02)
+        result02 = ['ERROR: INDIVIDUAL: US02: 1: I2: Husband\'s birth date 1990-06-08 after marriage date 1950-05-10']
+        self.assertEqual(project04.US02(), result02)
 
     def test_userstory07(self):
         result07 = ['ERROR: INDIVIDUAL: US07: 4: I5: Robert /Barathaon/ is 154 years old which is more then 150',

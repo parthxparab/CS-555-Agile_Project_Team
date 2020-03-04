@@ -433,62 +433,62 @@ print('\n')
 
 # US01 : PP
 # Dates before current date
-
-
 def US01():
-    todayDate = datetime.datetime.strptime(
-        datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
+    error = []
+    no = []
+    todayDate = datetime.datetime.strptime(datetime.datetime.today().strftime('%Y-%m-%d'), '%Y-%m-%d').date()
     counter = 0
     for i in range(len(df_indi)):
         if(df_indi['Birthday'][i] != 'NA' and df_indi['Birthday'][i] > todayDate):
-            birthday = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] + ')' + ' is ' + str(
-                df_indi.loc[i]['Birthday']) + ' which is more than the current date ' + str(todayDate)
-            print(birthday, '\n')
+            birthday = 'ERROR: INDIVIDUAL: US01: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Birthday ' + str(df_indi.loc[i]['Birthday']) + ' occurs in the future'
+            error.append(birthday)
             counter += 1
         elif(df_indi['Death'][i] != 'NA' and df_indi['Death'][i] > todayDate):
-            deathdate = 'Deathdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] + ')' + ' is ' + str(
-                df_indi.loc[i]['Death']) + ' which is more than the current date ' + str(todayDate)
-            print(deathdate, '\n')
+            deathdate = 'ERROR: INDIVIDUAL: US01: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Deathday ' + str(df_indi.loc[i]['Death']) + ' occurs in the future'
+            error.append(deathdate)
             counter += 1
     for i in range(len(df_fam)):
         if(df_fam['Married'][i] != 'NA' and df_fam['Married'][i] > todayDate):
-            married = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] + ')'+' and ' + df_fam.loc[i]['Wife Name'] + \
-                '('+'ID: '+df_fam.loc[i]['Wife ID'] + ')' + ' is ' + str(df_fam.loc[i]
-                                                                         ['Married']) + ' which is more than the current date ' + str(todayDate)
-            print(married, '\n')
+            married = 'ERROR: FAMILY: US01: '+str(i)+': '+df_fam.loc[i]['ID']+': '+'Marriage Day '+ str(df_fam.loc[i]['Married']) +' between '+ df_fam.loc[i]['Husband ID']+' and '+df_fam.loc[i]['Wife ID'] + ' occurs in the future'
+            error.append(married)
             counter += 1
         elif(df_fam['Divorced'][i] != 'NA' and df_fam['Divorced'][i] > todayDate):
-            divorced = 'Marriage Date of ' + df_fam.loc[i]['Husband Name']+'('+'ID: '+df_fam.loc[i]['Husband ID'] + ')'+' and ' + df_fam.loc[i]['Wife Name'] + \
-                '('+'ID: '+df_fam.loc[i]['Wife ID'] + ')' + ' is ' + str(df_fam.loc[i]
-                                                                         ['Married']) + ' which is more than the current date ' + str(todayDate)
-            print(divorced, '\n')
+            divorced = 'ERROR: FAMILY: US01: '+str(i)+': '+df_fam.loc[i]['ID']+': '+'Divorce Day ' + str(df_fam.loc[i]['Divorced']) +' between '+ df_fam.loc[i]['Husband ID']+' and '+df_fam.loc[i]['Wife ID'] + ' occurs in the future'
+            error.append(divorced)
             counter += 1
     if(counter > 0):
-        return ('Number of Entries found: ' + str(counter))
+        return (error)
     else:
-        return('No records found')
-
-
-print("\nUser Story 01 : Dates before current date\n")
-print(US01())
-
+        no.append('ERROR: US01: No records found')
+        return(no)        
+errorUS01 = US01()
+print(*errorUS01, sep="\n")
 # US02 : PP
 # Dates Birth before marriage
 
-
 def US02():
     count = 0
+    error = []
+    no = []
     for i in range(len(df_indi)):
-        if(df_indi['Birthday'][i] != 'NA' and df_indi['Spouce'][i] != 'NA' and (df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) > (df_indi['Birthday'][i])):
-            print_line = 'Birthdate of ' + df_indi.loc[i]['Name']+'('+'ID: '+df_indi.loc[i]['ID'] + ')' + ' is ' + str(
-                df_indi.loc[i]['Birthday']) + ' which is before their marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
-            count += 1
-            print(print_line)
+        if(df_indi['Birthday'][i] != 'NA' and df_indi['Spouce'][i] != 'NA' and (df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) < (df_indi['Birthday'][i])):
+            if(df_indi['Gender'][i] == 'M'):
+                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Husband\'s birth date ' + str(df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0])
+                count +=1
+                error.append(print_line)
+            elif(df_indi['Gender'][i] == 'F'):
+                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Wife\'s birth date ' + str(df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0])
+                count +=1
+                error.append(print_line)
+            else:
+                print_line = 'ERROR: INDIVIDUAL: US02: '+str(i)+': '+df_indi.loc[i]['ID']+': '+'Individual\'s birth date ' + str(df_indi.loc[i]['Birthday']) + ' after marriage date ' + str(df_fam[df_fam['ID'] == df_indi['Spouce'][i]]['Married'].values[0]) + '\n'
+                count +=1
+                error.append(print_line)
     if(count > 0):
-        return ('Number of Entries found: ' + str(count))
+        return (error)
     else:
-        return('No records found')
-
-
-print("\nUser Story 02: Dates Birth before marriage\n")
-print(US02())
+        no.append('ERROR: US02: No records found')
+        return(no)
+            
+errorUS02 = US02()
+print(*errorUS02, sep="\n")
