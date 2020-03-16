@@ -13,6 +13,7 @@ import datetime
 import dateutil.relativedelta
 from tabulate import tabulate
 from pandas._libs.tslibs.offsets import relativedelta
+import logging
 
 justLines = []
 dictIndi = {}
@@ -88,7 +89,7 @@ for i in range(len(gedcom_out)):
 df_indi = pd.DataFrame(columns=[
                        'ID', 'Name', 'Gender', 'Birthday', 'Age', 'Alive', 'Death', 'Child', 'Spouce'])
 name, gender, birt, deat = "", "", "", ""
-alive = False
+alive = True
 for key, value in dictIndi.items():
     age = 0
     for i in range(len(value)):
@@ -108,7 +109,7 @@ for key, value in dictIndi.items():
         if(value[i][0] == 'FAMS'):
             fams = value[i][1]
     if (any('DEAT' in i for i in value)):
-        alive = True
+        alive = False
         age = relativedelta(deat, birt).years
     else:
         age = relativedelta(datetime.datetime.now(), birt).years
@@ -518,3 +519,56 @@ def US02():
 
 errorUS02 = US02()
 print(*errorUS02, sep="\n")
+
+# US10 : PP
+#Marriage should be at least 14 years after birth of both spouses (parents must be at least 14 years old)
+
+def US10():
+    count = 0
+    error = []
+    no = []
+    for i in range(len(df_fam)):
+        if((df_fam['Married'][i]) != 'NA'):
+            if((df_fam['Married'][i] - df_indi.loc[df_indi['ID'] == df_fam['Husband ID'][i]].values[0][3]) < datetime.timedelta(168*365/12)):
+                print_line = 'ERROR: FAMILY: US10: '+str(i)+': '+df_indi.loc[df_indi['ID'] == df_fam['Husband ID'][i]].values[0][0]+': '+'Father\'s birth date ' + df_indi.loc[df_indi['ID'] == df_fam['Husband ID'][i]].values[0][3].strftime("%Y-%m-%d") + ' less than 14 years of marriage date ' + df_fam['Married'][i].strftime("%Y-%m-%d")
+                count += 1
+                error.append(print_line)
+            elif((df_fam['Married'][i] - df_indi.loc[df_indi['ID'] == df_fam['Wife ID'][i]].values[0][3]) < datetime.timedelta(168*365/12)):
+                print_line = 'ERROR: FAMILY: US10: '+str(i)+': '+df_indi.loc[df_indi['ID'] == df_fam['Wife ID'][i]].values[0][0]+': '+'Mother\'s birth date ' + df_indi.loc[df_indi['ID'] == df_fam['Wife ID'][i]].values[0][3].strftime("%Y-%m-%d") + ' less than 14 years of marriage date ' + df_fam['Married'][i].strftime("%Y-%m-%d")
+                count += 1
+                error.append(print_line)
+
+    if(count > 0):
+        return (error)
+    else:
+        no.append('ERROR: US10: No records found')
+        return(no)
+errorUS10 = US10()
+print(*errorUS10, sep="\n")
+
+# US09 : PP
+#Child should be born before death of mother and before 9 months after death of father
+def US09():
+    count = 0
+    error = []
+    for i in range(len(df_fam)):
+        if(len(df_fam['Children'][i]) > 0):
+
+            if(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8] != 'NA' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6] != 'NA' and len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8]) > 0 and df_indi['Alive'].loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0] == False):
+                logging.debug('First IF is here')
+                if(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'F' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6] < df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][3]):
+                    print_line = 'ERROR: FAMILY: US09: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Mother\'s death date ' + df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6].strftime("%Y-%m-%d") + ' before birthdate of child ' + df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][3].strftime("%Y-%m-%d")
+                    count = count + 1
+                    error.append(print_line)
+                elif(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'M' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6] < ((df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][3]) - datetime.timedelta(9*365/12))):
+                    print_line = 'ERROR: FAMILY: US09: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Father\'s death date ' + df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6].strftime("%Y-%m-%d") + ' before birthdate of child ' + df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][3].strftime("%Y-%m-%d")
+                    count = count + 1
+                    error.append(print_line)   
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+        
+errorUS09 = US09()
+print(*errorUS09, sep="\n")
