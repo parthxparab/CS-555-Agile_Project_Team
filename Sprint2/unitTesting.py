@@ -25,22 +25,21 @@ class functionTest(unittest.TestCase):
 
     def test_userstory01(self):
         result01 = ['ERROR: INDIVIDUAL: US01: 5: I6: Birthday 2050-07-10 occurs in the future', 'ERROR: INDIVIDUAL: US01: 10: I11: Deathday 2222-10-28 occurs in the future',
-                    'ERROR: FAMILY: US01: 2: F3: Marriage Day 2090-06-20 between I7 and I8 occurs in the future']
+                    'ERROR: FAMILY: US01: 3: F4: Marriage Day 2090-06-20 between I7 and I8 occurs in the future']
         self.assertEqual(parser.US01(), result01)
 
     def test_userstory02(self):
         result02 = [
-            'ERROR: INDIVIDUAL: US02: 1: I2: Husband\'s birth date 1990-06-08 after marriage date 1950-05-10']
+            'ERROR: INDIVIDUAL: US02: 2: I3: Husband\'s birth date 1990-06-08 after marriage date 1950-05-10']
         self.assertEqual(parser.US02(), result02)
 
     def test_userstory09(self):
-        result09 = ['ERROR: FAMILY: US09: 2: I5: Father\'s death date 1950-09-14 before birthdate of child 2050-07-10',
-                    'ERROR: FAMILY: US09: 4: I9: Father\'s death date 1920-09-08 before birthdate of child 1975-11-11', 'ERROR: FAMILY: US09: 5: I10: Mother\'s death date 1947-03-25 before birthdate of child 1947-09-11']
+        result09 = ['ERROR: FAMILY: US09: 4: I9: Father\'s death date 1920-09-08 before birthdate of child 1975-11-11', 'ERROR: FAMILY: US09: 5: I10: Mother\'s death date 1947-03-25 before birthdate of child 1947-09-11']
         self.assertEqual(parser.US09(), result09)
 
     def test_userstory10(self):
-        result10 = ['ERROR: FAMILY: US10: 0: I1: Mother\'s birth date 1980-03-03 less than 14 years of marriage date 1985-02-03', 'ERROR: FAMILY: US10: 1: I2: Father\'s birth date 1990-06-08 less than 14 years of marriage date 1950-05-10', 'ERROR: FAMILY: US10: 4: I8: Mother\'s birth date 1947-09-11 less than 14 years of marriage date 1960-10-17',
-                    'ERROR: FAMILY: US10: 5: I10: Father\'s birth date 1920-08-21 less than 14 years of marriage date 1923-02-10', 'ERROR: FAMILY: US10: 7: I16: Mother\'s birth date 1968-03-02 less than 14 years of marriage date 1975-01-02', 'ERROR: FAMILY: US10: 8: I17: Father\'s birth date 1960-06-03 less than 14 years of marriage date 1968-05-10']
+        result10 = ['ERROR: FAMILY: US10: 0: I1: Mother\'s birth date 1980-03-03 less than 14 years of marriage date 1985-02-03', 'ERROR: FAMILY: US10: 1: I3: Father\'s birth date 1990-06-08 less than 14 years of marriage date 1950-05-10', 'ERROR: FAMILY: US10: 4: I8: Mother\'s birth date 1947-09-11 less than 14 years of marriage date 1960-10-17',
+                    'ERROR: FAMILY: US10: 5: I10: Father\'s birth date 1920-08-21 less than 14 years of marriage date 1923-02-10', 'ERROR: FAMILY: US10: 6: I13: Father\'s birth date 1960-06-03 less than 14 years of marriage date 1968-05-10', 'ERROR: FAMILY: US10: 9: I17: Mother\'s birth date 1968-03-02 less than 14 years of marriage date 1975-01-02']
         self.assertEqual(parser.US10(), result10)
 
     def test_userstory07(self):
