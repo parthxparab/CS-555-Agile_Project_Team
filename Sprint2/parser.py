@@ -8,6 +8,7 @@ Original file is located at
 """
 
 from datetime import datetime
+from datetime import date, timedelta
 import pandas as pd
 import datetime
 import dateutil.relativedelta
@@ -382,6 +383,7 @@ def us_06_divorce_before_death():
 print("\n\nUSER STORY 06 TEST :")
 us06Error = us_06_divorce_before_death()
 print(*us06Error, sep="\n\n")
+print('\n')
 
 ##########__________________Sanket's Code__________________########################
 
@@ -404,7 +406,7 @@ def US07():
 
 print("User story 07 output: \n")
 errorUS07 = US07()
-print(*errorUS07, sep="\n\n")
+print(*errorUS07, sep="\n")
 print('\n')
 
 # US08 : SP
@@ -436,7 +438,52 @@ def US08():
 
 print("User story 08 output: \n")
 errorUS08 = US08()
-print(*errorUS08, sep="\n\n")
+print(*errorUS08, sep="\n")
+print('\n')
+
+
+# US35 : SP
+# List recent births
+
+def US35():
+    errors = []
+    dt = date.today() - timedelta(30)
+    for i, c in df_indi.iterrows():
+        if(c['Birthday'] > dt and c['Birthday'] < date.today()):
+            errors.append("ERROR: "+"INDIVIDUAL: "+"US35: "+str(i)+': '+c['ID']+": "+c['Name'] +
+                          " is born recently on "+str(c['Birthday']))
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+print("User story 35 output: \n")
+errorUS35 = US35()
+print(*errorUS35, sep="\n")
+print('\n')
+
+
+# US36 : SP
+# List recent deaths
+
+def US36():
+    errors = []
+    dt = date.today() - timedelta(30)
+    for i, c in df_indi.iterrows():
+        if(c['Death'] != 'NA'):
+            if(c['Death'] > dt and c['Death'] < date.today()):
+                errors.append("ERROR: "+"INDIVIDUAL: "+"US36: "+str(i)+': '+c['ID']+": "+c['Name'] +
+                              " died recently on "+str(c['Death']))
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+print("User story 36 output: \n")
+errorUS36 = US36()
+print(*errorUS36, sep="\n")
 print('\n')
 
 #############__________________Parth's Code__________________###############
