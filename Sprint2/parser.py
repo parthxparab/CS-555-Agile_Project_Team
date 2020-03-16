@@ -93,6 +93,8 @@ name, gender, birt, deat = "", "", "", ""
 alive = True
 for key, value in dictIndi.items():
     age = 0
+    deat_count = 0
+    #print(value)
     for i in range(len(value)):
         famc, fams = "", ""
         if(value[i][0] == 'NAME'):
@@ -105,15 +107,19 @@ for key, value in dictIndi.items():
         if(value[i][0] == 'DEAT'):
             deat = value[i][1]
             deat = datetime.datetime.strptime(deat, '%d %b %Y').date()
+            deat_count = deat_count + 1
         if(value[i][0] == 'FAMC'):
             famc = value[i][1]
         if(value[i][0] == 'FAMS'):
             fams = value[i][1]
+        if(deat_count < 1):
+            deat = 'NA'
     if (any('DEAT' in i for i in value)):
         alive = False
         age = relativedelta(deat, birt).years
     else:
         age = relativedelta(datetime.datetime.now(), birt).years
+        alive = 'NA'
 
     df_indi = df_indi.append({'ID': key, 'Name': name, 'Gender': gender, 'Birthday': birt,
                               'Alive': alive, 'Death': deat, 'Child': famc, 'Spouce': fams, 'Age': age}, ignore_index=True)
@@ -607,8 +613,7 @@ def US09():
     error = []
     for i in range(len(df_fam)):
         if(len(df_fam['Children'][i]) > 0):
-
-            if(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8] != 'NA' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6] != 'NA' and len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8]) > 0 and df_indi['Alive'].loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0] == False):
+            if(len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values) > 0 and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8] != 'NA' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6] != 'NA' and len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8]) > 0 and df_indi['Alive'].loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0] == False):
                 logging.debug('First IF is here')
                 if(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'F' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6] < df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][3]):
                     print_line = 'ERROR: FAMILY: US09: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Mother\'s death date ' + df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][6].strftime(
