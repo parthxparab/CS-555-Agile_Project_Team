@@ -34,7 +34,8 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US02(), result02)
 
     def test_userstory09(self):
-        result09 = ['ERROR: FAMILY: US09: 4: I9: Father\'s death date 1920-09-08 before birthdate of child 1975-11-11', 'ERROR: FAMILY: US09: 5: I10: Mother\'s death date 1947-03-25 before birthdate of child 1947-09-11']
+        result09 = ['ERROR: FAMILY: US09: 4: I9: Father\'s death date 1920-09-08 before birthdate of child 1975-11-11',
+                    'ERROR: FAMILY: US09: 5: I10: Mother\'s death date 1947-03-25 before birthdate of child 1947-09-11']
         self.assertEqual(parser.US09(), result09)
 
     def test_userstory10(self):
@@ -48,9 +49,11 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US07(), result07)
 
     def test_userstory08(self):
-        result08 = ['ERROR: FAMILY: US08: 5: I6: Jon /Barathaon/ is born after 9 months from divorce of parents',
-                    'ERROR: FAMILY: US08: 2: I3: Cate /Laniaster/ is born before marriage of parents',
-                    'ERROR: FAMILY: US08: 11: I12: Margery /Tyrell/ is born after 9 months from divorce of parents']
+        result08 = ['ERROR: FAMILY: US08: 5: I6: Jon /Barathaon/ is born after 9 months from divorce of Parent',
+                    'ERROR: FAMILY: US08: 3: I4: Cate /Laniaster/ is born before marriage of Parent',
+                    'ERROR: FAMILY: US08: 11: I12: Margery /Tyrell/ is born after 9 months from divorce of Parent',
+                    'ERROR: FAMILY: US08: 15: I16: Podrick /Tyrell/ is born before marriage of Parent',
+                    'ERROR: FAMILY: US08: 16: I17: Pady /Snow/ is born before marriage of Parent']
         self.assertEqual(parser.US08(), result08)
 
     def test_userstory35(self):
@@ -59,8 +62,8 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US35(), result35)
 
     def test_userstort36(self):
-        result36 = ['ERROR: INDIVIDUAL: US36: 16: I17: Pady /Snow/ died recently on 2020-03-13',
-                    'ERROR: INDIVIDUAL: US36: 17: I18: Leo /Stark/ died recently on 2020-03-13']
+        result36 = [
+            'ERROR: INDIVIDUAL: US36: 16: I17: Pady /Snow/ died recently on 2020-03-13']
         self.assertEqual(parser.US36(), result36)
 
     def test_userstory05(self):
