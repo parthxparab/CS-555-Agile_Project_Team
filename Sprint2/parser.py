@@ -183,6 +183,7 @@ print("Individuals")
 print(tabulate(df_indi, headers='keys', tablefmt='psql'))
 print("Families")
 print(tabulate(df_fam, headers='keys', tablefmt='psql'))
+print("\n")
 
 ##########__________________Vedadnya's Code__________________########################
 
@@ -207,7 +208,6 @@ def us03():
     return error
 
 
-print("\n\n\nUser story 03 output:\n\n")
 us03Error = us03()
 print(*us03Error, sep="\n")
 
@@ -231,7 +231,6 @@ def us04():
     return error
 
 
-print("\n\n\nUser story 04 output:\n\n")
 us04Error = us04()
 print(*us04Error, sep="\n")
 
@@ -261,7 +260,6 @@ def us17():
     return error
 
 
-print("\n\n\nUser story 17 output:\n\n")
 us17Error = us17()
 print(*us17Error, sep="\n")
 
@@ -285,7 +283,6 @@ def us18():
     return error
 
 
-print("\n\n\nUser story 18 output:\n\n")
 us18Error = us18()
 print(*us18Error, sep="\n")
 
@@ -324,7 +321,6 @@ def us_05_marriage_before_death():
 
     result = df_us_05.append(error, ignore_index=True)
     result = result.sort_values(by=['ID'], ascending=True)
-    print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
             correct.append("CORRECT: " + "INDIVIDUAL: " + "US05: " + str(i) + ": " + " " +
@@ -337,9 +333,8 @@ def us_05_marriage_before_death():
     return wrong
 
 
-print("\n\nUSER STORY 05 TEST :")
 us05Error = us_05_marriage_before_death()
-print(*us05Error, sep="\n\n")
+print(*us05Error, sep="\n")
 
 
 # User Story 06: divorce before death
@@ -374,7 +369,6 @@ def us_06_divorce_before_death():
 
     result = df_us_06.append(error, ignore_index=True)
     result = result.sort_values(by=['ID'], ascending=True)
-    print("\n")
     for i, j in result.iterrows():
         if j["Outcome"] is True:
             correct.append("CORRECT: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " +
@@ -387,10 +381,8 @@ def us_06_divorce_before_death():
     return wrong
 
 
-print("\n\nUSER STORY 06 TEST :")
 us06Error = us_06_divorce_before_death()
-print(*us06Error, sep="\n\n")
-print('\n')
+print(*us06Error, sep="\n")
 
 ##########__________________Sanket's Code__________________########################
 
@@ -411,10 +403,8 @@ def US07():
         return("No errors")
 
 
-print("User story 07 output: \n")
 errorUS07 = US07()
 print(*errorUS07, sep="\n")
-print('\n')
 
 # US08 : SP
 # Birth before marriage of Parent
@@ -443,10 +433,8 @@ def US08():
         return("No Errors")
 
 
-print("User story 08 output: \n")
 errorUS08 = US08()
 print(*errorUS08, sep="\n")
-print('\n')
 
 
 # US35 : SP
@@ -465,10 +453,8 @@ def US35():
         return("No Errors")
 
 
-print("User story 35 output: \n")
 errorUS35 = US35()
 print(*errorUS35, sep="\n")
-print('\n')
 
 
 # US36 : SP
@@ -488,10 +474,8 @@ def US36():
         return("No Errors")
 
 
-print("User story 36 output: \n")
 errorUS36 = US36()
 print(*errorUS36, sep="\n")
-print('\n')
 
 #############__________________Parth's Code__________________###############
 
