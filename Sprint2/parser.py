@@ -334,7 +334,6 @@ def us_05_marriage_before_death():
     return wrong
 
 
-print("\n\nUSER STORY 05 output :")
 us05Error = us_05_marriage_before_death()
 print(*us05Error, sep="\n")
 
@@ -383,7 +382,6 @@ def us_06_divorce_before_death():
     return wrong
 
 
-print("\n\nUSER STORY 06 output :")
 us06Error = us_06_divorce_before_death()
 print(*us06Error, sep="\n")
 
@@ -414,7 +412,6 @@ def US21():
     return wrong
                 
                 
-print("\n\nUSER STORY 21 output :\n")
 us21Error = US21()
 print(*us21Error, sep="\n")
           
@@ -447,10 +444,8 @@ def US22():
 
     return error
 
-print("\n\nUSER STORY 22 output :\n")
 us22Error = US22()
 print(*us22Error, sep="\n")
-print("\n")
 
 ##########__________________Sanket's Code__________________########################
 
