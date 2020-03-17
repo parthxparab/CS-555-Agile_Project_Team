@@ -408,13 +408,13 @@ def US21():
                 if (col["Gender"] == 'M'):
                     continue
                 elif (col["Gender"] == 'F'):
-                    wrong.append(("ERROR: FAMILY: US21: " +str(index)+": Correct gender for role is violated for husband ID: " + col['ID'] + " and Name: " + col['Name']))
+                    wrong.append(("ERROR: FAMILY: US21: " + str(index) + ": Correct gender for role is violated for husband ID: " + col['ID'] + " and Name: " + col['Name']))
 
             if ((col["ID"] == wife_id)):
                 if (col["Gender"] == 'F'):
                     continue
                 elif (col["Gender"] == 'M'):
-                    wrong.append(("ERROR: FAMILY: US21: " +str(index)+": Correct gender for role is violated for wife ID: " + col['ID'] + " and Name: " + col['Name']))
+                    wrong.append(("ERROR: FAMILY: US21: " + str(index)+ ": Correct gender for role is violated for wife ID: " + col['ID'] + " and Name: " + col['Name']))
                     
     return wrong
                 
@@ -428,7 +428,7 @@ def US22():
     
     df_copy_indi = df_indi.copy()
     date_value = datetime.datetime.strptime('1997-03-02', '%Y-%m-%d').date()
-    df_copy_indi = df_copy_indi.append({'ID' : 'I1' , 'Name' : 'Daniel James' , 'Gender' : 'M' , 'Birthday' : date_value , 'Age' : 22} , ignore_index=True)
+    df_copy_indi = df_copy_indi.append({'ID' : 'I1' , 'Name' : 'Robb /Stark/' , 'Gender' : 'M' , 'Birthday' : date_value , 'Age' : 22} , ignore_index=True)
     df_copy_indi = df_copy_indi.replace(np.nan, 'NA', regex=True)
     error_indi = []
     error_fam = []
@@ -448,9 +448,7 @@ def US22():
     for index, col in non_unique_fam.iterrows():
         error_fam.append(("ERROR: FAMILY: US22: " +str(index)+": Unique ID violated for : " + col['ID'] + ", Husband Name: " + col['Husband Name'] + " and Wife Name: " + col['Wife Name']))
 
-
     error = error_indi + error_fam
-
 
     return error
 
