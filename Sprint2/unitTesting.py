@@ -4,8 +4,10 @@ import parser
 
 class functionTest(unittest.TestCase):
     def test_userstory03(self):
-        result03 = ['ERROR: INDIVIDUAL: US03: 3:  I4: Robb /Stark/ has a future Birthdate: 1960-04-04 with respect to Deathdate: 1950-09-14', 'ERROR: INDIVIDUAL: US03: 5:  I6: Jon /Barathaon/ has a future Birthdate: 2050-07-10 with respect to Deathdate: 1950-09-14',
-                    'ERROR: INDIVIDUAL: US03: 8:  I9: Raegar /Targarayen/ has a future Birthdate: 1940-07-08 with respect to Deathdate: 1920-09-08', 'ERROR: INDIVIDUAL: US03: 11:  I12: Margery /Tyrell/ has a future Birthdate: 1967-07-09 with respect to Deathdate: 1966-01-08']
+        result03 = ['ERROR: INDIVIDUAL: US03: 1:  I2: Robb /Stark/ has a future Birthdate: 1960-04-04 with respect to Deathdate: 1950-09-14',
+                    'ERROR: INDIVIDUAL: US03: 5:  I6: Jon /Barathaon/ has a future Birthdate: 2050-07-10 with respect to Deathdate: 2020-03-19', 
+                    'ERROR: INDIVIDUAL: US03: 8:  I9: Raegar /Targarayen/ has a future Birthdate: 1940-07-08 with respect to Deathdate: 1920-09-08',
+                    'ERROR: INDIVIDUAL: US03: 11:  I12: Margery /Tyrell/ has a future Birthdate: 1967-07-09 with respect to Deathdate: 1966-01-08']
         self.assertEqual(parser.us03(), result03)
 
     def test_userstory04(self):
@@ -14,13 +16,12 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.us04(), result04)
 
     def test_userstory17(self):
-        result17 = [
-            'ERROR: FAMILY: US17: 9:  F10: Parent I17 is married to their child : I16']
+        result17 = ['ERROR: FAMILY: US17: 7:  F8: Parent I13 is married to their child : I17']
         self.assertEqual(parser.us17(), result17)
 
     def test_userstory18(self):
-        result18 = ['ERROR: FAMILY: US18: 0:  F1: Siblings I4 and I1 are married',
-                    'ERROR: FAMILY: US18: 7:  F8: Siblings I15 and I16 are married']
+        result18 = ['ERROR: FAMILY: US18: 0:  F1: Siblings I2 and I1 are married', 
+                    'ERROR: FAMILY: US18: 9:  F10: Siblings I16 and I17 are married']
         self.assertEqual(parser.us18(), result18)
 
     def test_userstory01(self):
