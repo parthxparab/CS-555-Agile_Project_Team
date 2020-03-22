@@ -194,8 +194,7 @@ print("\n")
 
 def us03():
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    todayDate = datetime.datetime.strptime('2020-04-01','%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     error = []
