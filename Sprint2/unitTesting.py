@@ -63,7 +63,7 @@ class functionTest(unittest.TestCase):
             'ERROR: INDIVIDUAL: US35: 17: I18: Leo /Stark/ is born recently on 2020-03-14']
         self.assertEqual(parser.US35(), result35)
 
-    def test_userstort36(self):
+    def test_userstory36(self):
         result36 = [
             'ERROR: INDIVIDUAL: US36: 16: I17: Pady /Snow/ died recently on 2020-03-13']
         self.assertEqual(parser.US36(), result36)
