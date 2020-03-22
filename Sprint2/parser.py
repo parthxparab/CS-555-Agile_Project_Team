@@ -194,8 +194,7 @@ print("\n")
 
 def us03():
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    todayDate = datetime.datetime.strptime('2020-04-01','%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     error = []
@@ -295,8 +294,9 @@ print(*us18Error, sep="\n")
 def us_05_marriage_before_death():
 
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    #todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime('2020-04-01','%Y-%m-%d').date()
+    #todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     wrong = []
@@ -342,8 +342,9 @@ print(*us05Error, sep="\n")
 def us_06_divorce_before_death():
 
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    #todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime('2020-04-01','%Y-%m-%d').date()
+    #todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     wrong = []
