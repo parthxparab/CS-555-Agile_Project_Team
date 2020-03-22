@@ -95,7 +95,7 @@ alive = True
 for key, value in dictIndi.items():
     age = 0
     deat_count = 0
-    #print(value)
+    # print(value)
     for i in range(len(value)):
         famc, fams = "", ""
         if(value[i][0] == 'NAME'):
@@ -194,8 +194,7 @@ print("\n")
 
 def us03():
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    todayDate = datetime.datetime.strptime('2020-04-01', '%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     error = []
@@ -295,8 +294,9 @@ print(*us18Error, sep="\n")
 def us_05_marriage_before_death():
 
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    #todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime('2020-04-01', '%Y-%m-%d').date()
+    #todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     wrong = []
@@ -342,8 +342,9 @@ print(*us05Error, sep="\n")
 def us_06_divorce_before_death():
 
     df_copy = df_indi.copy()
-    todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
-    todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
+    #todayDate = datetime.datetime.today().strftime('%Y-%m-%d')
+    todayDate = datetime.datetime.strptime('2020-04-01', '%Y-%m-%d').date()
+    #todayDate = datetime.datetime.strptime(todayDate, '%Y-%m-%d').date()
     df_copy = df_copy.replace({'Death': 'NA'}, todayDate)
     correct = []
     wrong = []
@@ -386,63 +387,71 @@ us06Error = us_06_divorce_before_death()
 print(*us06Error, sep="\n")
 
 
-## PN: User Story 21: correct gender for role
+# PN: User Story 21: correct gender for role
 def US21():
-    
+
     df_copy = df_indi.copy()
     wrong = []
-    
+
     for index, col in df_fam.iterrows():
         husb_id = col["Husband ID"]
         wife_id = col["Wife ID"]
-    
+
         for index, col in df_copy.iterrows():
             if ((col["ID"] == husb_id)):
                 if (col["Gender"] == 'M'):
                     continue
                 elif (col["Gender"] == 'F'):
-                    wrong.append(("ERROR: FAMILY: US21: " + str(index) + ": Correct gender for role is violated for husband ID: " + col['ID'] + " and Name: " + col['Name']))
+                    wrong.append(("ERROR: FAMILY: US21: " + str(index) +
+                                  ": Correct gender for role is violated for husband ID: " + col['ID'] + " and Name: " + col['Name']))
 
             if ((col["ID"] == wife_id)):
                 if (col["Gender"] == 'F'):
                     continue
                 elif (col["Gender"] == 'M'):
-                    wrong.append(("ERROR: FAMILY: US21: " + str(index)+ ": Correct gender for role is violated for wife ID: " + col['ID'] + " and Name: " + col['Name']))
-                    
+                    wrong.append(("ERROR: FAMILY: US21: " + str(index) +
+                                  ": Correct gender for role is violated for wife ID: " + col['ID'] + " and Name: " + col['Name']))
+
     return wrong
-                
-                
+
+
 us21Error = US21()
 print(*us21Error, sep="\n")
-          
-## PN: User Story 22: Unique IDs
+
+# PN: User Story 22: Unique IDs
+
+
 def US22():
-    
+
     df_copy_indi = df_indi.copy()
     date_value = datetime.datetime.strptime('1997-03-02', '%Y-%m-%d').date()
-    df_copy_indi = df_copy_indi.append({'ID' : 'I1' , 'Name' : 'Robb /Stark/' , 'Gender' : 'M' , 'Birthday' : date_value , 'Age' : 22} , ignore_index=True)
+    df_copy_indi = df_copy_indi.append(
+        {'ID': 'I1', 'Name': 'Robb /Stark/', 'Gender': 'M', 'Birthday': date_value, 'Age': 22}, ignore_index=True)
     df_copy_indi = df_copy_indi.replace(np.nan, 'NA', regex=True)
     error_indi = []
     error_fam = []
     error = []
 
     df_copy_fam = df_fam.copy()
-    df_copy_fam = df_copy_fam.append({'ID' : 'F1' , 'Husband ID' : 'I3' , 'Husband Name' : 'Ned Stark' , 'Wife ID' : 'I4' , 'Wife Name' : 'Cate Laniaster', 'Children' : []} , ignore_index=True)
+    df_copy_fam = df_copy_fam.append({'ID': 'F1', 'Husband ID': 'I3', 'Husband Name': 'Ned Stark',
+                                      'Wife ID': 'I4', 'Wife Name': 'Cate Laniaster', 'Children': []}, ignore_index=True)
     df_copy_fam = df_copy_fam.replace(np.nan, 'NA', regex=True)
-    
 
     non_unique_indi = df_copy_indi[df_copy_indi.duplicated(['ID'], keep=False)]
     non_unique_fam = df_copy_fam[df_copy_fam.duplicated(['ID'], keep=False)]
-    
+
     for index, col in non_unique_indi.iterrows():
-        error_indi.append(("ERROR: INDIVIDUAL: US22: " +str(index)+": Unique ID violated for : " + col['ID'] + " and Name: " + col['Name']))
+        error_indi.append(("ERROR: INDIVIDUAL: US22: " + str(index) +
+                           ": Unique ID violated for : " + col['ID'] + " and Name: " + col['Name']))
 
     for index, col in non_unique_fam.iterrows():
-        error_fam.append(("ERROR: FAMILY: US22: " +str(index)+": Unique ID violated for : " + col['ID'] + ", Husband Name: " + col['Husband Name'] + " and Wife Name: " + col['Wife Name']))
+        error_fam.append(("ERROR: FAMILY: US22: " + str(index)+": Unique ID violated for : " +
+                          col['ID'] + ", Husband Name: " + col['Husband Name'] + " and Wife Name: " + col['Wife Name']))
 
     error = error_indi + error_fam
 
     return error
+
 
 us22Error = US22()
 print(*us22Error, sep="\n")
