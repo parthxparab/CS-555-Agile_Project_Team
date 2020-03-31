@@ -473,12 +473,37 @@ def US23():
     count = dict(Counter(name_birthdate))
     for key, value in count.items():
         if value > 1:
-            error.append("ERROR INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: " + str(key[0]) + " and Date of Birth: " + str(key[1]))
+            error.append("ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: " + str(key[0]) + " and Date of Birth: " + str(key[1]))
     return error
 
 us23Error = US23()
 print(*us23Error, sep="\n")
 
+# PN: User Story 24: unique families by spouses
+# No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file
+def US24():
+
+    df_copy = df_fam.copy()
+    row = df_copy.iloc[4:6]
+    df_copy = df_copy.append(row, ignore_index=True)
+    spouses_marriage_date = []
+    error = []
+    
+    for index, col in df_copy.iterrows():
+        marriage_date = col['Married']
+        husband_name = col['Husband Name']
+        wife_name = col['Wife Name']
+        temp = (marriage_date, husband_name, wife_name)
+        spouses_marriage_date.append(temp)
+
+    count = dict(Counter(spouses_marriage_date))
+    for key, value in count.items():
+        if value > 1:
+            error.append("ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: " + str(key[1]) + " ,Wife Name: " + str(key[2]) + ", and Marriage Date: " + str(key[0]))
+    return error
+
+us24Error = US24()
+print(*us24Error, sep="\n")
 
 ##########__________________Sanket's Code__________________########################
 
