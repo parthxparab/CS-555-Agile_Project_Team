@@ -88,6 +88,15 @@ class functionTest(unittest.TestCase):
                     'ERROR: FAMILY: US22: 0: Unique ID violated for : F1, Husband Name: Robb /Stark/ and Wife Name: Arya /Stark/', 'ERROR: FAMILY: US22: 10: Unique ID violated for : F1, Husband Name: Ned Stark and Wife Name: Cate Laniaster']
         self.assertEqual(parser.US22(), result22)
 
+    def test_userstory23(self):
+        result23 = ['ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: Ned /Stark/ and Date of Birth: 1990-06-08',
+                    'ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: Cate /Laniaster/ and Date of Birth: 1940-08-08']
+        self.assertEqual(parser.US23(), result23)
+        
+    def test_userstory24(self):
+        result24 = ['ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Raegar /Targarayen/ ,Wife Name: Cercie /Tyrell/, and Marriage Date: 1960-10-17',
+                    'ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Ramsay /Tyrell/ ,Wife Name: Olenna /Tully/, and Marriage Date: 1923-02-10']
+        self.assertEqual(parser.US24(), result24)
 
 if __name__ == '__main__':
     unittest.main()
