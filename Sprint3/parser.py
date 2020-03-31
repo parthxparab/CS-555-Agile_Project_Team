@@ -11,6 +11,7 @@ from datetime import datetime
 from datetime import date, timedelta
 import pandas as pd
 import numpy as np
+from collections import Counter
 import datetime
 import dateutil.relativedelta
 from tabulate import tabulate
@@ -419,8 +420,6 @@ us21Error = US21()
 print(*us21Error, sep="\n")
 
 # PN: User Story 22: Unique IDs
-
-
 def US22():
 
     df_copy_indi = df_indi.copy()
@@ -455,6 +454,31 @@ def US22():
 
 us22Error = US22()
 print(*us22Error, sep="\n")
+
+# PN: User Story 23: unique name and birth date
+def US23():
+    
+    df_copy = df_indi.copy()
+    row = df_copy.iloc[2:4]
+    df_copy = df_copy.append(row, ignore_index=True)
+    name_birthdate = []
+    error = []
+    
+    for index, col in df_copy.iterrows():   
+        name = col['Name']
+        dob = str(col['Birthday'])
+        temp = (name, dob)
+        name_birthdate.append(temp)
+        
+    count = dict(Counter(name_birthdate))
+    for key, value in count.items():
+        if value > 1:
+            error.append("ERROR INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: " + str(key[0]) + " and Date of Birth: " + str(key[1]))
+    return error
+
+us23Error = US23()
+print(*us23Error, sep="\n")
+
 
 ##########__________________Sanket's Code__________________########################
 
