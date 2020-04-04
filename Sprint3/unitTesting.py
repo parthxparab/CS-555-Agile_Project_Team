@@ -25,6 +25,20 @@ class functionTest(unittest.TestCase):
                     'ERROR: FAMILY: US18: 9:  F10: Siblings I16 and I17 are married']
         self.assertEqual(parser.us18(), result18)
 
+    def test_userstory34(self):
+        result34 = ['ERROR FAMILY US34 : I1 :The Wife is more than double the age of I2 :The Husband ',
+                    'ERROR FAMILY US34 : I4 :The Wife is more than double the age of I3 :The Husband ', 
+                    'ERROR FAMILY US34 : I8 :The Wife is more than double the age of I9 :The Husband ', 
+                    'ERROR FAMILY US34 : I11 :The Wife is more than double the age of I10 :The Husband ', 
+                    'ERROR FAMILY US34 : I13 :The Husband is more than double the age of I12 :The Wife ']
+        self.assertEqual(parser.us34(), result34)
+
+    def test_userstory20(self):
+        result20 = ['ENTRY FOUND US20 Children :  I4 have Uncle/s and Aunt/s with ID/s I12', 
+                    'ENTRY FOUND US20 Children :  I14 have Uncle/s and Aunt/s with ID/s I12', 
+                    'ENTRY FOUND US20 Children :  I16 I17 have Uncle/s and Aunt/s with ID/s I8']
+        self.assertEqual(parser.us20(), result20)
+
     def test_userstory01(self):
         result01 = ['ERROR: INDIVIDUAL: US01: 5: I6: Birthday 2050-07-10 occurs in the future', 'ERROR: INDIVIDUAL: US01: 10: I11: Deathday 2222-10-28 occurs in the future',
                     'ERROR: FAMILY: US01: 3: F4: Marriage Day 2090-06-20 between I7 and I8 occurs in the future']
