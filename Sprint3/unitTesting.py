@@ -4,7 +4,7 @@ import parser
 
 class functionTest(unittest.TestCase):
     def test_userstory03(self):
-        result03 = ['ERROR: INDIVIDUAL: US03: 1:  I2: Robb /Stark/ has a future Birthdate: 1960-04-04 with respect to Deathdate: 1950-09-14',
+        result03 = ['ERROR: INDIVIDUAL: US03: 1:  I2: Robb /Stark/ has a future Birthdate: 1960-04-14 with respect to Deathdate: 1950-09-14',
                     'ERROR: INDIVIDUAL: US03: 5:  I6: Jon /Barathaon/ has a future Birthdate: 2050-07-10 with respect to Deathdate: 2020-04-01',
                     'ERROR: INDIVIDUAL: US03: 8:  I9: Raegar /Targarayen/ has a future Birthdate: 1940-07-08 with respect to Deathdate: 1920-09-08',
                     'ERROR: INDIVIDUAL: US03: 11:  I12: Margery /Tyrell/ has a future Birthdate: 1967-07-09 with respect to Deathdate: 1966-01-08']
@@ -46,7 +46,7 @@ class functionTest(unittest.TestCase):
 
     def test_userstory02(self):
         result02 = [
-            'ERROR: INDIVIDUAL: US02: 2: I3: Husband\'s birth date 1990-06-08 after marriage date 1950-05-10']
+            'ERROR: INDIVIDUAL: US02: 2: I3: Husband\'s birth date 1990-06-08 after marriage date 1950-04-20']
         self.assertEqual(parser.US02(), result02)
 
     def test_userstory09(self):
@@ -55,8 +55,8 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US09(), result09)
 
     def test_userstory10(self):
-        result10 = ['ERROR: FAMILY: US10: 0: I1: Mother\'s birth date 1980-03-03 less than 14 years of marriage date 1985-02-03', 'ERROR: FAMILY: US10: 1: I3: Father\'s birth date 1990-06-08 less than 14 years of marriage date 1950-05-10', 'ERROR: FAMILY: US10: 4: I8: Mother\'s birth date 1947-09-11 less than 14 years of marriage date 1960-10-17',
-                    'ERROR: FAMILY: US10: 5: I10: Father\'s birth date 1920-08-21 less than 14 years of marriage date 1923-02-10', 'ERROR: FAMILY: US10: 6: I13: Father\'s birth date 1960-06-03 less than 14 years of marriage date 1968-05-10', 'ERROR: FAMILY: US10: 9: I17: Mother\'s birth date 1968-03-02 less than 14 years of marriage date 1975-01-02']
+        result10 = ['ERROR: FAMILY: US10: 0: I1: Mother\'s birth date 1980-03-03 less than 14 years of marriage date 1985-04-13', 'ERROR: FAMILY: US10: 1: I3: Father\'s birth date 1990-06-08 less than 14 years of marriage date 1950-04-20', 'ERROR: FAMILY: US10: 4: I8: Mother\'s birth date 1947-09-11 less than 14 years of marriage date 1960-10-17',
+                    'ERROR: FAMILY: US10: 5: I10: Father\'s birth date 1920-08-21 less than 14 years of marriage date 1923-02-10', 'ERROR: FAMILY: US10: 6: I13: Father\'s birth date 1960-04-30 less than 14 years of marriage date 1968-05-10', 'ERROR: FAMILY: US10: 9: I17: Mother\'s birth date 1968-03-02 less than 14 years of marriage date 1975-01-02']
         self.assertEqual(parser.US10(), result10)
 
     def test_userstory07(self):
@@ -82,6 +82,16 @@ class functionTest(unittest.TestCase):
             'ERROR: INDIVIDUAL: US36: 16: I17: Pady /Snow/ died recently on 2020-03-13']
         self.assertEqual(parser.US36(), result36)
 
+    def test_userstory38(self):
+        result38 = ['ERROR: INDIVIDUAL: US38: 3: I4: Cate /Laniaster/ has upcoming Birthday on 1940-04-08',
+                    'ERROR: INDIVIDUAL: US38: 12: I13: Pod /Snow/ has upcoming Birthday on 1960-04-30']
+        self.assertEqual(parser.US38(), result38)
+
+    def test_userstory39(self):
+        result39 = [
+            'ERROR: FAMILY: US39: 1: Ned /Stark/(I3) and Cate /Laniaster/(I4) has upcoming Anniversary on 1950-04-20']
+        self.assertEqual(parser.US39(), result39)
+
     def test_userstory05(self):
         result05 = ['ERROR: INDIVIDUAL: US05: 19:  I12: Margery /Tyrell/ has an erroneous Marriage Date with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US05: 20:  I18: Leo /Stark/ has an erroneous Marriage Date with respect to Deathdate: 2020-04-01', 'ERROR: INDIVIDUAL: US05: 15:  I2: Robb /Stark/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14',
                     'ERROR: INDIVIDUAL: US05: 16:  I6: Jon /Barathaon/ has an erroneous Marriage Date with respect to Deathdate: 2020-04-01', 'ERROR: INDIVIDUAL: US05: 17:  I7: Jamie /Lanaster/ has an erroneous Marriage Date with respect to Deathdate: 1990-07-12', 'ERROR: INDIVIDUAL: US05: 18:  I9: Raegar /Targarayen/ has an erroneous Marriage Date with respect to Deathdate: 1920-09-08']
@@ -104,13 +114,14 @@ class functionTest(unittest.TestCase):
 
     def test_userstory23(self):
         result23 = ['ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: Ned /Stark/ and Date of Birth: 1990-06-08',
-                    'ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: Cate /Laniaster/ and Date of Birth: 1940-08-08']
+                    'ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: Cate /Laniaster/ and Date of Birth: 1940-04-08']
         self.assertEqual(parser.US23(), result23)
-        
+
     def test_userstory24(self):
         result24 = ['ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Raegar /Targarayen/ ,Wife Name: Cercie /Tyrell/, and Marriage Date: 1960-10-17',
                     'ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Ramsay /Tyrell/ ,Wife Name: Olenna /Tully/, and Marriage Date: 1923-02-10']
         self.assertEqual(parser.US24(), result24)
+
 
 if __name__ == '__main__':
     unittest.main()
