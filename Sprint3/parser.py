@@ -420,6 +420,8 @@ us21Error = US21()
 print(*us21Error, sep="\n")
 
 # PN: User Story 22: Unique IDs
+
+
 def US22():
 
     df_copy_indi = df_indi.copy()
@@ -456,31 +458,37 @@ us22Error = US22()
 print(*us22Error, sep="\n")
 
 # PN: User Story 23: unique name and birth date
+
+
 def US23():
-    
+
     df_copy = df_indi.copy()
     row = df_copy.iloc[2:4]
     df_copy = df_copy.append(row, ignore_index=True)
     name_birthdate = []
     error = []
-    
-    for index, col in df_copy.iterrows():   
+
+    for index, col in df_copy.iterrows():
         name = col['Name']
         dob = str(col['Birthday'])
         temp = (name, dob)
         name_birthdate.append(temp)
-        
+
     count = dict(Counter(name_birthdate))
     for key, value in count.items():
         if value > 1:
-            error.append("ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: " + str(key[0]) + " and Date of Birth: " + str(key[1]))
+            error.append("ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: " +
+                         str(key[0]) + " and Date of Birth: " + str(key[1]))
     return error
+
 
 us23Error = US23()
 print(*us23Error, sep="\n")
 
 # PN: User Story 24: unique families by spouses
 # No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file
+
+
 def US24():
 
     df_copy = df_fam.copy()
@@ -488,7 +496,7 @@ def US24():
     df_copy = df_copy.append(row, ignore_index=True)
     spouses_marriage_date = []
     error = []
-    
+
     for index, col in df_copy.iterrows():
         marriage_date = col['Married']
         husband_name = col['Husband Name']
@@ -499,8 +507,10 @@ def US24():
     count = dict(Counter(spouses_marriage_date))
     for key, value in count.items():
         if value > 1:
-            error.append("ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: " + str(key[1]) + " ,Wife Name: " + str(key[2]) + ", and Marriage Date: " + str(key[0]))
+            error.append("ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: " +
+                         str(key[1]) + " ,Wife Name: " + str(key[2]) + ", and Marriage Date: " + str(key[0]))
     return error
+
 
 us24Error = US24()
 print(*us24Error, sep="\n")
@@ -597,6 +607,69 @@ def US36():
 
 errorUS36 = US36()
 print(*errorUS36, sep="\n")
+
+
+# US38 : SP
+# List upcoming birthdays
+
+
+def US38():
+    errors = []
+    dt = date.today() + timedelta(30)
+    for i, c in df_indi.iterrows():
+        bir = c['Birthday']
+        y = date.today().year
+        bir = bir.replace(year=y)
+        if(c['Death'] == 'NA'):
+            if(bir <= dt and bir >= date.today()):
+                errors.append("ERROR: "+"INDIVIDUAL: "+"US38: "+str(i)+': ' +
+                              c['ID']+": "+c['Name'] + " has upcoming Birthday on "+str(c['Birthday']))
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+errorUS38 = US38()
+print(*errorUS38, sep="\n")
+
+
+# US39 : SP
+# List upcoming anniveraries
+
+def US39():
+    errors = []
+    dt = date.today() + timedelta(30)
+    for i, c in df_fam.iterrows():
+        mar = c['Married']
+        y = date.today().year
+        mar = mar.replace(year=y)
+        if(c['Divorced'] == 'NA'):
+            if(mar <= dt and mar >= date.today()):
+                hid = c['Husband ID']
+                wid = c['Wife ID']
+                hname = c['Husband Name']
+                wname = c['Wife Name']
+                flag = True
+                for x, y in df_indi.iterrows():
+                    if(y['ID'] == hid):
+                        if(y['Alive'] != 'NA'):
+                            flag = False
+                    elif(y['ID'] == wid):
+                        if(y["Alive"] != 'NA'):
+                            flag = False
+                if(flag == True):
+                    errors.append("ERROR: "+"FAMILY: "+"US39: "+str(i)+": "+hname+"("+hid+")" +
+                                  " and "+wname+"("+wid+")"+" has upcoming Anniversary on "+str(c['Married']))
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+errorUS39 = US39()
+print(*errorUS39, sep="\n")
+
 
 #############__________________Parth's Code__________________###############
 
