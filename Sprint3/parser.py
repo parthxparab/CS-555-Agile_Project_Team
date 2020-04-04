@@ -287,6 +287,64 @@ def us18():
 us18Error = us18()
 print(*us18Error, sep="\n")
 
+# User Story 34 : VJ
+# List large age differences
+
+
+def us34():
+    df_copy = df_indi.copy()
+    error = []
+    dict = {}
+    for i, j in df_copy.iterrows():
+        dict[df_copy['ID'][i]] = df_copy['Age'][i]
+    for i, j in df_fam.iterrows():
+        if dict[df_fam['Husband ID'][i]] > dict[df_fam['Wife ID'][i]]:
+            if dict[df_fam['Husband ID'][i]] > dict[df_fam['Wife ID'][i]]*2:
+                error.append("ERROR FAMILY US34 : " + df_fam['Husband ID'][i]+" :The Husband is more than double the age of "+ df_fam['Wife ID'][i] + " :The Wife ")
+        else:
+            if dict[df_fam['Wife ID'][i]] > dict[df_fam['Husband ID'][i]]*2:
+                error.append("ERROR FAMILY US34 : " + df_fam['Wife ID'][i]+" :The Wife is more than double the age of "+ df_fam['Husband ID'][i] + " :The Husband ")
+    return error
+us34Error = us34()
+print(*us34Error, sep="\n")
+
+# User Story 20 : VJ
+# Uncles and Aunts
+
+
+def us20():
+    df_copy = df_fam.copy()
+    correct =[]
+    error = []
+    children = ""
+    uncleAunts = ""
+    for i, j in df_copy.iterrows():
+        for k, l in df_copy.iterrows():
+            if df_copy['Husband ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k])>1:
+                if len(df_copy['Children'][i]) != 0:
+                    for index in range(len(df_copy['Children'][i])): 
+                        children += " " + str(df_copy['Children'][i][index])
+                    for index in range(len(df_copy['Children'][k])): 
+                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]) :
+                            uncleAunts += str(df_copy['Children'][k][index])
+                    error.append("ENTRY FOUND US20 " + "Children : " + children +" have Uncle/s and Aunt/s with ID/s " + uncleAunts)
+                    children = ""
+                    uncleAunts = ""
+            elif df_copy['Wife ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k])>1:
+                if len(df_copy['Children'][i]) != 0:
+                    for index in range(len(df_copy['Children'][i])): 
+                        children += " " + str(df_copy['Children'][i][index])
+                    for index in range(len(df_copy['Children'][k])): 
+                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]) :
+                            uncleAunts += str(df_copy['Children'][k][index])
+                    error.append("ENTRY FOUND US20 " + "Children : " + children +" have Uncle/s and Aunt/s with ID/s " + uncleAunts)
+                    children = ""
+                    uncleAunts = ""
+    return error
+
+us20Error = us20()
+print(*us20Error, sep="\n")
+
 
 ##########__________________Pranav's Code__________________########################
 
@@ -380,7 +438,6 @@ def us_06_divorce_before_death():
         else:
             wrong.append("ERROR: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " +
                          j['ID'] + ": " + j['Name'] + " has an erroneous Divorce Date with respect to Deathdate: " + str(j['Death']))
-
     return wrong
 
 
