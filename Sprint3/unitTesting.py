@@ -27,15 +27,15 @@ class functionTest(unittest.TestCase):
 
     def test_userstory34(self):
         result34 = ['ERROR FAMILY US34 : I1 :The Wife is more than double the age of I2 :The Husband ',
-                    'ERROR FAMILY US34 : I4 :The Wife is more than double the age of I3 :The Husband ', 
-                    'ERROR FAMILY US34 : I8 :The Wife is more than double the age of I9 :The Husband ', 
-                    'ERROR FAMILY US34 : I11 :The Wife is more than double the age of I10 :The Husband ', 
+                    'ERROR FAMILY US34 : I4 :The Wife is more than double the age of I3 :The Husband ',
+                    'ERROR FAMILY US34 : I8 :The Wife is more than double the age of I9 :The Husband ',
+                    'ERROR FAMILY US34 : I11 :The Wife is more than double the age of I10 :The Husband ',
                     'ERROR FAMILY US34 : I13 :The Husband is more than double the age of I12 :The Wife ']
         self.assertEqual(parser.us34(), result34)
 
     def test_userstory20(self):
-        result20 = ['ENTRY FOUND US20 Children :  I4 have Uncle/s and Aunt/s with ID/s I12', 
-                    'ENTRY FOUND US20 Children :  I14 have Uncle/s and Aunt/s with ID/s I12', 
+        result20 = ['ENTRY FOUND US20 Children :  I4 have Uncle/s and Aunt/s with ID/s I12',
+                    'ENTRY FOUND US20 Children :  I14 have Uncle/s and Aunt/s with ID/s I12',
                     'ENTRY FOUND US20 Children :  I16 I17 have Uncle/s and Aunt/s with ID/s I8']
         self.assertEqual(parser.us20(), result20)
 
@@ -88,8 +88,8 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US38(), result38)
 
     def test_userstory39(self):
-        result39 = [
-            'ERROR: FAMILY: US39: 1: Ned /Stark/(I3) and Cate /Laniaster/(I4) has upcoming Anniversary on 1950-04-20']
+        result39 = ['ERROR: FAMILY: US39: 0: Robb /Stark/(I2) and Arya /Stark/(I1) has upcoming Anniversary on 1985-04-13',
+                    'ERROR: FAMILY: US39: 1: Ned /Stark/(I3) and Cate /Laniaster/(I4) has upcoming Anniversary on 1950-04-20']
         self.assertEqual(parser.US39(), result39)
 
     def test_userstory05(self):
@@ -121,6 +121,14 @@ class functionTest(unittest.TestCase):
         result24 = ['ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Raegar /Targarayen/ ,Wife Name: Cercie /Tyrell/, and Marriage Date: 1960-10-17',
                     'ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Ramsay /Tyrell/ ,Wife Name: Olenna /Tully/, and Marriage Date: 1923-02-10']
         self.assertEqual(parser.US24(), result24)
+
+    def test_userstory11(self):
+        result11 = ['ERROR: FAMILY: US11: 1: F2: Cate /Laniaster/ is married to Ned /Stark/and Robert /Barathaon/ at the same time']
+        self.assertEqual(parser.US11(), result11)
+
+    def test_userstory12(self):
+        result12 = ['ERROR: FAMILY: US12: 2: I5: Mother\'s age 154 is more than 60 years older than her child -30']
+        self.assertEqual(parser.US12(), result12)
 
 
 if __name__ == '__main__':

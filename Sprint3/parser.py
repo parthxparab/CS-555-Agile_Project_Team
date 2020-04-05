@@ -121,7 +121,7 @@ for key, value in dictIndi.items():
         age = relativedelta(deat, birt).years
     else:
         age = relativedelta(datetime.datetime.now(), birt).years
-        alive = 'NA'
+        alive = True
 
     df_indi = df_indi.append({'ID': key, 'Name': name, 'Gender': gender, 'Birthday': birt,
                               'Alive': alive, 'Death': deat, 'Child': famc, 'Spouce': fams, 'Age': age}, ignore_index=True)
@@ -300,11 +300,15 @@ def us34():
     for i, j in df_fam.iterrows():
         if dict[df_fam['Husband ID'][i]] > dict[df_fam['Wife ID'][i]]:
             if dict[df_fam['Husband ID'][i]] > dict[df_fam['Wife ID'][i]]*2:
-                error.append("ERROR FAMILY US34 : " + df_fam['Husband ID'][i]+" :The Husband is more than double the age of "+ df_fam['Wife ID'][i] + " :The Wife ")
+                error.append("ERROR FAMILY US34 : " + df_fam['Husband ID'][i] +
+                             " :The Husband is more than double the age of " + df_fam['Wife ID'][i] + " :The Wife ")
         else:
             if dict[df_fam['Wife ID'][i]] > dict[df_fam['Husband ID'][i]]*2:
-                error.append("ERROR FAMILY US34 : " + df_fam['Wife ID'][i]+" :The Wife is more than double the age of "+ df_fam['Husband ID'][i] + " :The Husband ")
+                error.append("ERROR FAMILY US34 : " +
+                             df_fam['Wife ID'][i]+" :The Wife is more than double the age of " + df_fam['Husband ID'][i] + " :The Husband ")
     return error
+
+
 us34Error = us34()
 print(*us34Error, sep="\n")
 
@@ -314,33 +318,36 @@ print(*us34Error, sep="\n")
 
 def us20():
     df_copy = df_fam.copy()
-    correct =[]
+    correct = []
     error = []
     children = ""
     uncleAunts = ""
     for i, j in df_copy.iterrows():
         for k, l in df_copy.iterrows():
-            if df_copy['Husband ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k])>1:
+            if df_copy['Husband ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k]) > 1:
                 if len(df_copy['Children'][i]) != 0:
-                    for index in range(len(df_copy['Children'][i])): 
+                    for index in range(len(df_copy['Children'][i])):
                         children += " " + str(df_copy['Children'][i][index])
-                    for index in range(len(df_copy['Children'][k])): 
-                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]) :
+                    for index in range(len(df_copy['Children'][k])):
+                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]):
                             uncleAunts += str(df_copy['Children'][k][index])
-                    error.append("ENTRY FOUND US20 " + "Children : " + children +" have Uncle/s and Aunt/s with ID/s " + uncleAunts)
+                    error.append("ENTRY FOUND US20 " + "Children : " + children +
+                                 " have Uncle/s and Aunt/s with ID/s " + uncleAunts)
                     children = ""
                     uncleAunts = ""
-            elif df_copy['Wife ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k])>1:
+            elif df_copy['Wife ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k]) > 1:
                 if len(df_copy['Children'][i]) != 0:
-                    for index in range(len(df_copy['Children'][i])): 
+                    for index in range(len(df_copy['Children'][i])):
                         children += " " + str(df_copy['Children'][i][index])
-                    for index in range(len(df_copy['Children'][k])): 
-                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]) :
+                    for index in range(len(df_copy['Children'][k])):
+                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]):
                             uncleAunts += str(df_copy['Children'][k][index])
-                    error.append("ENTRY FOUND US20 " + "Children : " + children +" have Uncle/s and Aunt/s with ID/s " + uncleAunts)
+                    error.append("ENTRY FOUND US20 " + "Children : " + children +
+                                 " have Uncle/s and Aunt/s with ID/s " + uncleAunts)
                     children = ""
                     uncleAunts = ""
     return error
+
 
 us20Error = us20()
 print(*us20Error, sep="\n")
@@ -588,7 +595,8 @@ def US07():
     if(errors):
         return(errors)
     else:
-        return("No errors")
+        errors.append('ERROR: US07: No records found')
+        return(errors)
 
 
 errorUS07 = US07()
@@ -710,10 +718,10 @@ def US39():
                 flag = True
                 for x, y in df_indi.iterrows():
                     if(y['ID'] == hid):
-                        if(y['Alive'] != 'NA'):
+                        if(y['Alive'] == 'False'):
                             flag = False
                     elif(y['ID'] == wid):
-                        if(y["Alive"] != 'NA'):
+                        if(y["Alive"] == 'False'):
                             flag = False
                 if(flag == True):
                     errors.append("ERROR: "+"FAMILY: "+"US39: "+str(i)+": "+hname+"("+hid+")" +
@@ -721,7 +729,8 @@ def US39():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US39: No records found')
+        return(errors)
 
 
 errorUS39 = US39()
@@ -869,3 +878,86 @@ def US09():
 
 errorUS09 = US09()
 print(*errorUS09, sep="\n")
+
+# US11 : PP
+# Marriage should not occur during marriage to another spouse
+
+
+def US11():
+    count = 0
+    error = []
+    for i in range(len(df_fam)):
+        for j in range(i, len(df_fam)):
+            if(df_fam['Wife Name'][i] == df_fam['Wife Name'][j] and df_fam['ID'][i] != df_fam['ID'][j]):
+
+                iMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][i]].values[0])[1]
+                iDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][i]].values[0])[2]
+                jMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][j]].values[0])[1]
+                jDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][j]].values[0])[2]
+                if((iMarry < jMarry and iDiv == 'NA')or (iMarry < jMarry and iDiv > jMarry)):
+                    print_line = 'ERROR: FAMILY: US11: '+str(i)+': '+df_fam['ID'][i] + ': '+df_fam['Wife Name'][i] + \
+                        " is married to " + \
+                        df_fam['Husband Name'][i] + "and " + \
+                        df_fam['Husband Name'][j] + " at the same time"
+                    count = count + 1
+                    error.append(print_line)
+
+            if(df_fam['Husband Name'][i] == df_fam['Husband Name'][j] and df_fam['ID'][i] != df_fam['ID'][j]):
+                iMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][i]].values[0])[1]
+                iDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][i]].values[0])[2]
+                jMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][j]].values[0])[1]
+                jDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][j]].values[0])[2]
+                if((iMarry < jMarry and iDiv == 'NA')or (iMarry < jMarry and iDiv > jMarry)):
+                    print_line = 'ERROR: FAMILY: US11: '+str(i)+': '+df_fam['ID'][i] + ': '+df_fam['Husband Name'][i] + \
+                        " is married to " + \
+                        df_fam['Wife Name'][i] + "and " + \
+                        df_fam['Wife Name'][j] + " at the same time"
+                    count = count + 1
+                    error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US11: No records found')
+        return(error)
+errorUS11 = US11()
+print(*errorUS11, sep="\n")
+
+# US12 : PP
+# Mother should be less than 60 years older than her children and father should be less than 80 years older than his children
+
+
+def US12():
+    count = 0
+    error = []
+    for i in range(len(df_fam)):
+        if(len(df_fam['Children'][i]) > 0):
+            if(len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values) > 0 and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8] != 'NA' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4] != 'NA' and len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8]) > 0 and df_indi['Alive'].loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0] == True):
+
+                logging.debug('First IF is here')
+                if(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'F' and (df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4] - df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4]) > 60):
+                    print_line = 'ERROR: FAMILY: US12: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Mother\'s age ' + str(
+                        df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4]) + ' is more than 60 years older than her child ' + str(df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4])
+                    count = count + 1
+                    error.append(print_line)
+                elif(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'M' and (df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4] - df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4]) > 80):
+                    print_line = 'ERROR: FAMILY: US12: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Father\'s age ' + str(
+                        df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4]) + ' is more than 60 years older than his child with age' + str(df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4])
+                    count = count + 1
+                    error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+
+
+errorUS12 = US12()
+print(*errorUS12, sep="\n")
