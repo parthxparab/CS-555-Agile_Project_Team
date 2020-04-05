@@ -922,14 +922,11 @@ def US11():
                         df_fam['Wife Name'][j] + " at the same time"
                     count = count + 1
                     error.append(print_line)
-
     if(count > 0):
         return (error)
     else:
         error.append('ERROR: US11: No records found')
         return(error)
-
-
 errorUS11 = US11()
 print(*errorUS11, sep="\n")
 
