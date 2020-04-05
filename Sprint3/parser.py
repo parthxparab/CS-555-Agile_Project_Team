@@ -588,7 +588,8 @@ def US07():
     if(errors):
         return(errors)
     else:
-        return("No errors")
+        errors.append('ERROR: US07: No records found')
+        return(errors)
 
 
 errorUS07 = US07()
@@ -721,7 +722,8 @@ def US39():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US39: No records found')
+        return(errors)
 
 
 errorUS39 = US39()
