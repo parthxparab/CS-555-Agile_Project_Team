@@ -122,6 +122,14 @@ class functionTest(unittest.TestCase):
                     'ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Ramsay /Tyrell/ ,Wife Name: Olenna /Tully/, and Marriage Date: 1923-02-10']
         self.assertEqual(parser.US24(), result24)
 
+    def test_userstory11(self):
+        result11 = ['ERROR: FAMILY: US11: 1: F2: Cate /Laniaster/ is married to Ned /Stark/and Robert /Barathaon/ at the same time']
+        self.assertEqual(parser.US11(), result11)
+
+    def test_userstory12(self):
+        result12 = ['ERROR: FAMILY: US12: 2: I5: Mother\'s age 154 is more than 60 years older than her child -30']
+        self.assertEqual(parser.US12(), result12)
+
 
 if __name__ == '__main__':
     unittest.main()
