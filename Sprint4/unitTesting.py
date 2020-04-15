@@ -152,6 +152,11 @@ class functionTest(unittest.TestCase):
                     'ERROR: INDIVIDUAL: US25: No unique first name in family for name: Cate /Laniaster/']
         self.assertEqual(parser.US25(), result25)
 
+    def test_userstory26(self):
+        result26 = ['ERROR: INDIVIDUAL: US26: No corresponding entries for Robb /Stark/ in the corresponding family records',
+                    'ERROR: FAMILY: US26: No corresponding entries for Husband Name: Ned Stark and Wife Name: Cate Laniaster in the corresponding individual records']
+        self.assertEqual(parser.US26(), result26)
+        
     def test_userstory11(self):
         result11 = [
             'ERROR: FAMILY: US11: 1: F2: Cate /Laniaster/ is married to Ned /Stark/and Robert /Barathaon/ at the same time']
