@@ -146,6 +146,11 @@ class functionTest(unittest.TestCase):
         result24 = ['ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Raegar /Targarayen/ ,Wife Name: Cercie /Tyrell/, and Marriage Date: 1960-10-17',
                     'ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: Ramsay /Tyrell/ ,Wife Name: Olenna /Tully/, and Marriage Date: 1923-02-10']
         self.assertEqual(parser.US24(), result24)
+        
+    def test_userstory25(self):
+        result25 = ['ERROR: INDIVIDUAL: US25: No unique first name in family for name: Robb /Stark/', 'ERROR: INDIVIDUAL: US25: No unique first name in family for name: Jon /Barathaon/',
+                    'ERROR: INDIVIDUAL: US25: No unique first name in family for name: Cate /Laniaster/']
+        self.assertEqual(parser.US25(), result25)
 
     def test_userstory11(self):
         result11 = [
