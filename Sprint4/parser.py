@@ -610,6 +610,60 @@ def US25():
 us25Error = US25()
 print(*us25Error, sep="\n")
 
+# Corresponding Entries
+def US26():
+    
+    df_copy_indi = df_indi.copy()
+    df_copy_fam = df_fam.copy()
+
+    date_value = datetime.datetime.strptime('1960-04-14', '%Y-%m-%d').date()
+    entries_fam_roles = []
+    entries_indi_roles = []
+    error_indi = []
+    error_fam = []
+    error = []
+    
+    fam_id_list = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"]
+    indi_id_list = ["I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "I11", "I12", "I13", "I14", "I15", "I16", "I17", "I18"]
+    
+    df_copy_indi = df_copy_indi.append({'ID': 'I2', 'Name': 'Robb /Stark/', 'Gender': 'M', 'Birthday': date_value, 'Age': 22, 'Child': 'F11', 'Spouce': 'F12'}, ignore_index=True)
+    
+    df_copy_fam = df_copy_fam.append({'ID': 'F2', 'Husband ID': 'I19', 'Husband Name': 'Ned Stark',
+                                      'Wife ID': 'I0', 'Wife Name': 'Cate Laniaster', 'Children': ['I20']}, ignore_index=True)
+    
+    # FAM ROLES
+    for index, col in df_copy_indi.iterrows():
+        child = col["Child"]
+        spouse = col["Spouce"]
+        if (child != 'NA' or spouse != 'NA'):
+            if (child in fam_id_list or spouse in fam_id_list):
+                entries_fam_roles.append(child)
+                entries_fam_roles.append(spouse)
+            else:
+                error_indi.append("ERROR: INDIVIDUAL: US26: No corresponding entries for " + col["Name"] + " in the corresponding family records")
+            
+    
+    # INDI ROLES
+    for index, col in df_copy_fam.iterrows():
+        children = col["Children"]
+        husb_id = col["Husband ID"]
+        wife_id = col["Wife ID"]
+        if (children != 'NA' or husb_id != 'NA' or wife_id != 'NA'):
+            if (children in indi_id_list or husb_id in indi_id_list or wife_id in indi_id_list):
+                entries_indi_roles.append(children)
+                entries_indi_roles.append(husb_id)
+                entries_indi_roles.append(wife_id)
+                
+            else:
+                error_fam.append("ERROR: FAMILY: US26: No corresponding entries for Husband Name: " + col["Husband Name"] + " and Wife Name: " + col["Wife Name"] + " in the corresponding individual records")
+   
+    
+    error = error_indi + error_fam
+    
+    return error
+    
+us26Error = US26()
+print(*us26Error, sep="\n")
 
 ##########__________________Sanket's Code__________________########################
 
