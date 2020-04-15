@@ -7,7 +7,7 @@ class functionTest(unittest.TestCase):
         result03 = ['ERROR: INDIVIDUAL: US03: 1:  I2: Robb /Stark/ has a future Birthdate: 1960-04-14 with respect to Deathdate: 1950-09-14',
                     'ERROR: INDIVIDUAL: US03: 5:  I6: Jon /Barathaon/ has a future Birthdate: 2050-07-10 with respect to Deathdate: 2020-04-01',
                     'ERROR: INDIVIDUAL: US03: 8:  I9: Raegar /Targarayen/ has a future Birthdate: 1940-07-08 with respect to Deathdate: 1920-09-08',
-                    'ERROR: INDIVIDUAL: US03: 11:  I12: Margery /Tyrell/ has a future Birthdate: 1967-07-09 with respect to Deathdate: 1966-01-08']
+                    'ERROR: INDIVIDUAL: US03: 11:  I12: Margery /Tyrell/ has a future Birthdate: 1967-07-09 with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US03: 17:  I18: Leo /Stark/ has a future Birthdate: 2020-04-10 with respect to Deathdate: 2020-04-01']
         self.assertEqual(parser.us03(), result03)
 
     def test_userstory04(self):
@@ -74,23 +74,48 @@ class functionTest(unittest.TestCase):
 
     def test_userstory35(self):
         result35 = [
-            'ERROR: INDIVIDUAL: US35: 17: I18: Leo /Stark/ is born recently on 2020-03-14']
+            'ERROR: INDIVIDUAL: US35: 17: I18: Leo /Stark/ is born recently on 2020-04-10']
         self.assertEqual(parser.US35(), result35)
 
     def test_userstory36(self):
         result36 = [
-            'ERROR: INDIVIDUAL: US36: 16: I17: Pady /Snow/ died recently on 2020-03-13']
+            'ERROR: INDIVIDUAL: US36: 16: I17: Pady /Snow/ died recently on 2020-04-13']
         self.assertEqual(parser.US36(), result36)
 
     def test_userstory38(self):
-        result38 = ['ERROR: INDIVIDUAL: US38: 3: I4: Cate /Laniaster/ has upcoming Birthday on 1940-04-08',
-                    'ERROR: INDIVIDUAL: US38: 12: I13: Pod /Snow/ has upcoming Birthday on 1960-04-30']
+        result38 = [
+            'ERROR: INDIVIDUAL: US38: 12: I13: Pod /Snow/ has upcoming Birthday on 1960-04-30']
         self.assertEqual(parser.US38(), result38)
 
     def test_userstory39(self):
-        result39 = ['ERROR: FAMILY: US39: 0: Robb /Stark/(I2) and Arya /Stark/(I1) has upcoming Anniversary on 1985-04-13',
-                    'ERROR: FAMILY: US39: 1: Ned /Stark/(I3) and Cate /Laniaster/(I4) has upcoming Anniversary on 1950-04-20']
+        result39 = ['ERROR: FAMILY: US39: 1: Ned /Stark/(I3) and Cate /Laniaster/(I4) has upcoming Anniversary on 1950-04-20',
+                    'ERROR: FAMILY: US39: 7: Pod /Snow/(I13) and Pady /Snow/(I17) has upcoming Anniversary on 1989-05-10']
         self.assertEqual(parser.US39(), result39)
+
+    def test_userstory29(self):
+        result29 = ['ERROR: INDIVIDUAL: US29: 1: I2: Robb /Stark/ died on 1950-09-14',
+                    'ERROR: INDIVIDUAL: US29: 6: I7: Jamie /Lanaster/ died on 1990-07-12',
+                    'ERROR: INDIVIDUAL: US29: 8: I9: Raegar /Targarayen/ died on 1920-09-08',
+                    'ERROR: INDIVIDUAL: US29: 9: I10: Ramsay /Tyrell/ died on 1947-03-25',
+                    'ERROR: INDIVIDUAL: US29: 10: I11: Olenna /Tully/ died on 2222-10-28',
+                    'ERROR: INDIVIDUAL: US29: 11: I12: Margery /Tyrell/ died on 1966-01-08',
+                    'ERROR: INDIVIDUAL: US29: 13: I14: Danny /Targaryen/ died on 2010-09-17',
+                    'ERROR: INDIVIDUAL: US29: 16: I17: Pady /Snow/ died on 2020-04-13']
+        self.assertEqual(parser.US29(), result29)
+
+    def test_userstory30(self):
+        result30 = ['ERROR: INDIVIDUAL: US30: 0: I1: Arya /Stark/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 1: I3: Ned /Stark/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 1: I4: Cate /Laniaster/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 2: I4: Cate /Laniaster/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 2: I5: Robert /Barathaon/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 3: I8: Cercie /Tyrell/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 4: I8: Cercie /Tyrell/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 6: I13: Pod /Snow/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 7: I13: Pod /Snow/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 8: I15: Jon /Snow/ is alive and married',
+                    'ERROR: INDIVIDUAL: US30: 9: I16: Podrick /Tyrell/ is alive and married']
+        self.assertEqual(parser.US30(), result30)
 
     def test_userstory05(self):
         result05 = ['ERROR: INDIVIDUAL: US05: 19:  I12: Margery /Tyrell/ has an erroneous Marriage Date with respect to Deathdate: 1966-01-08', 'ERROR: INDIVIDUAL: US05: 20:  I18: Leo /Stark/ has an erroneous Marriage Date with respect to Deathdate: 2020-04-01', 'ERROR: INDIVIDUAL: US05: 15:  I2: Robb /Stark/ has an erroneous Marriage Date with respect to Deathdate: 1950-09-14',
