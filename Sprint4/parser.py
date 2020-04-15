@@ -579,6 +579,38 @@ def US24():
 us24Error = US24()
 print(*us24Error, sep="\n")
 
+# Unique First Names in families
+def US25():
+    
+    df_copy_indi = df_indi.copy()
+    df_copy_fam = df_fam.copy()
+    row = df_copy_indi.iloc[1:7]
+    df_copy = df_copy_indi.append(row, ignore_index=True)
+    name_birth_list = []
+    error = []
+   
+    for index, col in df_copy_fam.iterrows():
+        child = col['Children']
+        if child != None:
+            for index, col in df_copy.iterrows():
+                if col['ID'] in child:
+                    name = col['Name']
+                    birth = str(col['Birthday'])
+                    temp = (name, birth)
+                    name_birth_list.append(temp)
+                    
+    count = dict(Counter(name_birth_list))
+    
+    for key, value in count.items():
+        if value > 1:
+            error.append("ERROR: INDIVIDUAL: US25: No unique first name in family for name: " + str(key[0]))
+             
+    return error       
+
+us25Error = US25()
+print(*us25Error, sep="\n")
+
+
 ##########__________________Sanket's Code__________________########################
 
 # US07 : SP
