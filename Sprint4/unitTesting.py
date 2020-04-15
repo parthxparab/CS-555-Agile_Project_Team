@@ -50,12 +50,12 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US02(), result02)
 
     def test_userstory09(self):
-        result09 = ['ERROR: FAMILY: US09: 4: I9: Father\'s death date 1920-09-08 before birthdate of child 1975-11-11',
-                    'ERROR: FAMILY: US09: 5: I10: Mother\'s death date 1947-03-25 before birthdate of child 1947-09-11']
+        result09 = [
+            'ERROR: FAMILY: US09: 4: I9: Father\'s death date 1920-09-08 before birthdate of child 1975-11-11']
         self.assertEqual(parser.US09(), result09)
 
     def test_userstory10(self):
-        result10 = ['ERROR: FAMILY: US10: 0: I1: Mother\'s birth date 1980-03-03 less than 14 years of marriage date 1985-04-13', 'ERROR: FAMILY: US10: 1: I3: Father\'s birth date 1990-06-08 less than 14 years of marriage date 1950-04-20', 'ERROR: FAMILY: US10: 4: I8: Mother\'s birth date 1947-09-11 less than 14 years of marriage date 1960-10-17',
+        result10 = ['ERROR: FAMILY: US10: 0: I1: Mother\'s birth date 1980-03-03 less than 14 years of marriage date 1985-04-13', 'ERROR: FAMILY: US10: 1: I3: Father\'s birth date 1990-06-08 less than 14 years of marriage date 1950-04-20',
                     'ERROR: FAMILY: US10: 5: I10: Father\'s birth date 1920-08-21 less than 14 years of marriage date 1923-02-10', 'ERROR: FAMILY: US10: 6: I13: Father\'s birth date 1960-04-30 less than 14 years of marriage date 1968-05-10', 'ERROR: FAMILY: US10: 9: I17: Mother\'s birth date 1968-03-02 less than 14 years of marriage date 1975-01-02']
         self.assertEqual(parser.US10(), result10)
 
@@ -123,12 +123,24 @@ class functionTest(unittest.TestCase):
         self.assertEqual(parser.US24(), result24)
 
     def test_userstory11(self):
-        result11 = ['ERROR: FAMILY: US11: 1: F2: Cate /Laniaster/ is married to Ned /Stark/and Robert /Barathaon/ at the same time']
+        result11 = [
+            'ERROR: FAMILY: US11: 1: F2: Cate /Laniaster/ is married to Ned /Stark/and Robert /Barathaon/ at the same time']
         self.assertEqual(parser.US11(), result11)
 
     def test_userstory12(self):
-        result12 = ['ERROR: FAMILY: US12: 2: I5: Mother\'s age 154 is more than 60 years older than her child -30']
+        result12 = [
+            'ERROR: FAMILY: US12: 2: I5: Mother\'s age 154 is more than 60 years older than her child -30']
         self.assertEqual(parser.US12(), result12)
+
+    def test_userstory31(self):
+        result31 = ['ERROR: INDIVIDUAL: US31: 0: I1: Arya /Stark/ is of age 40 and unmarried', 'ERROR: INDIVIDUAL: US31: 3: I4: Cate /Laniaster/ is of age 80 and unmarried', 'ERROR: INDIVIDUAL: US31: 7: I8: Cercie /Tyrell/ is of age 74 and unmarried',
+                    'ERROR: INDIVIDUAL: US31: 13: I14: Danny /Targaryen/ is of age 34 and unmarried', 'ERROR: INDIVIDUAL: US31: 15: I16: Podrick /Tyrell/ is of age 60 and unmarried', 'ERROR: INDIVIDUAL: US31: 16: I17: Pady /Snow/ is of age 52 and unmarried']
+        self.assertEqual(parser.US31(), result31)
+
+    def test_userstory32(self):
+        result32 = [
+            'ERROR: INDIVIDUAL: US32: 6: I7: Jamie /Lanaster/ and Cercie /Tyrell/ (I8) have the same birthdate 1945-07-09']
+        self.assertEqual(parser.US32(), result32)
 
 
 if __name__ == '__main__':

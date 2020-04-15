@@ -626,7 +626,8 @@ def US08():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US08: No records found')
+        return(errors)
 
 
 errorUS08 = US08()
@@ -646,7 +647,8 @@ def US35():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US35: No records found')
+        return(errors)
 
 
 errorUS35 = US35()
@@ -667,7 +669,8 @@ def US36():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US36: No records found')
+        return(errors)
 
 
 errorUS36 = US36()
@@ -692,7 +695,8 @@ def US38():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US38: No records found')
+        return(errors)
 
 
 errorUS38 = US38()
@@ -927,6 +931,8 @@ def US11():
     else:
         error.append('ERROR: US11: No records found')
         return(error)
+
+
 errorUS11 = US11()
 print(*errorUS11, sep="\n")
 
@@ -961,3 +967,53 @@ def US12():
 
 errorUS12 = US12()
 print(*errorUS12, sep="\n")
+
+# US31 : PP
+# List living single
+
+
+def US31():
+    count = 0
+    error = []
+    for i in range(len(df_indi)):
+        if(df_indi['Age'][i] > 30 and df_indi['Spouce'][i] == 'NA'):
+            print_line = 'ERROR: INDIVIDUAL: US31: ' + \
+                str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] + \
+                ' is of age '+str(df_indi['Age'][i]) + ' and unmarried'
+            count = count + 1
+            error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+
+
+errorUS31 = US31()
+print(*errorUS31, sep="\n")
+
+# US32 : PP
+# List multiple births
+
+
+def US32():
+    count = 0
+    error = []
+    for i in range(len(df_indi)):
+        for j in range(i, len(df_indi)):
+            if(df_indi['Birthday'][i] == df_indi['Birthday'][j] and df_indi['ID'][i] != df_indi['ID'][j]):
+                print_line = 'ERROR: INDIVIDUAL: US32: ' + \
+                    str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] + \
+                    ' and '+df_indi['Name'][j]+' ('+str(df_indi['ID'][j]) + \
+                    ') have the same birthdate '+str(df_indi['Birthday'][i])
+                count = count + 1
+                error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+
+
+errorUS32 = US32()
+print(*errorUS32, sep="\n")
