@@ -741,6 +741,53 @@ errorUS39 = US39()
 print(*errorUS39, sep="\n")
 
 
+# US29 : SP
+# List deceased
+
+def US29():
+    errors = []
+    for i, c in df_indi.iterrows():
+        if(c['Alive'] == False and c['Death'] != 'NA'):
+            errors.append("ERROR: "+"INDIVIDUAL: "+"US29: "+str(i)+': '+c['ID']+": "+c['Name'] +
+                          " died on "+str(c['Death']))
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+errorUS29 = US29()
+print(*errorUS29, sep="\n")
+
+
+# US30 : SP
+# List living married
+
+def US30():
+    errors = []
+    for i, c in df_fam.iterrows():
+        if(c['Married'] != 'NA'):
+            hid = c['Husband ID']
+            wid = c['Wife ID']
+            for x, y in df_indi.iterrows():
+                if(y['ID'] == hid):
+                    if(y['Alive'] == True):
+                        errors.append("ERROR: "+"INDIVIDUAL: "+"US30: "+str(i)+': '+y['ID']+": "+y['Name'] +
+                                      " is alive and married")
+                elif(y['ID'] == wid):
+                    if(y['Alive'] == True):
+                        errors.append("ERROR: "+"INDIVIDUAL: "+"US30: "+str(i)+': '+y['ID']+": "+y['Name'] +
+                                      " is alive and married")
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+errorUS30 = US30()
+print(*errorUS30, sep="\n")
+
+
 #############__________________Parth's Code__________________###############
 
 # US01 : PP
