@@ -32,6 +32,14 @@ class functionTest(unittest.TestCase):
                     'ERROR FAMILY US34 : I11 :The Wife is more than double the age of I10 :The Husband ',
                     'ERROR FAMILY US34 : I13 :The Husband is more than double the age of I12 :The Wife ']
         self.assertEqual(parser.us34(), result34)
+    
+    def test_userstory27(self):
+        result27 = ['ENTRY FOUND: INDIVIDUAL: US27: 0: I1: Arya /Stark/ is of age 40', 'ENTRY FOUND: INDIVIDUAL: US27: 2: I3: Ned /Stark/ is of age 29', 'ENTRY FOUND: INDIVIDUAL: US27: 3: I4: Cate /Laniaster/ is of age 80', 'ENTRY FOUND: INDIVIDUAL: US27: 4: I5: Robert /Barathaon/ is of age 154', 'ENTRY FOUND: INDIVIDUAL: US27: 6: I7: Jamie /Lanaster/ is of age 45', 'ENTRY FOUND: INDIVIDUAL: US27: 7: I8: Cercie /Tyrell/ is of age 74', 'ENTRY FOUND: INDIVIDUAL: US27: 9: I10: Ramsay /Tyrell/ is of age 26', 'ENTRY FOUND: INDIVIDUAL: US27: 10: I11: Olenna /Tully/ is of age 302', 'ENTRY FOUND: INDIVIDUAL: US27: 12: I13: Pod /Snow/ is of age 59', 'ENTRY FOUND: INDIVIDUAL: US27: 13: I14: Danny /Targaryen/ is of age 34', 'ENTRY FOUND: INDIVIDUAL: US27: 14: I15: Jon /Snow/ is of age 43', 'ENTRY FOUND: INDIVIDUAL: US27: 15: I16: Podrick /Tyrell/ is of age 60', 'ENTRY FOUND: INDIVIDUAL: US27: 16: I17: Pady /Snow/ is of age 52']
+        self.assertEqual(parser.us27(), result27)
+    
+    def test_userstory28(self):
+        result28 = ['ENTRY FOUND : FAMILY: US28: 1:  has siblings : I1(40) I2(9) I18(0)', 'ENTRY FOUND : FAMILY: US28: 5:  has siblings : I8(74) I12(1)', 'ENTRY FOUND : FAMILY: US28: 6:  has siblings : I16(60) I17(52)']
+        self.assertEqual(parser.us28(), result28)
 
     def test_userstory20(self):
         result20 = ['ENTRY FOUND US20 Children :  I4 have Uncle/s and Aunt/s with ID/s I12',
