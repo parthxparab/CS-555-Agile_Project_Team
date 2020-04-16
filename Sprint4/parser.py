@@ -353,6 +353,31 @@ us20Error = us20()
 print(*us20Error, sep="\n")
 
 
+# User Story 27 : VJ
+# Include individual ages
+
+
+def us27():
+    count = 0
+    error = []
+    for i, j in df_indi.iterrows():
+        if df_indi['Age'][i] > 0:
+            error.append('ENTRY FOUND: INDIVIDUAL: US27: ' + \
+                str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] + \
+                ' is of age '+str(df_indi['Age'][i]))
+            count = count + 1
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US27: No records found')
+        return(error)
+
+
+errorUS27 = us27()
+# print(errorUS27)
+print(*errorUS27, sep="\n")
+
+
 ##########__________________Pranav's Code__________________########################
 
 
