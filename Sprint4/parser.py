@@ -377,6 +377,34 @@ errorUS27 = us27()
 # print(errorUS27)
 print(*errorUS27, sep="\n")
 
+# User Story 28 : VJ
+# Order siblings by age
+
+
+def us28():
+    count = 0
+    error = []
+    for i, j in df_fam.iterrows():
+        if len(df_fam['Children'][i])>1:
+            children = ""
+            siblings ={}
+            for index in range(len(df_fam['Children'][i])):
+                siblings[df_fam['Children'][i][index]] = df_indi['Age'][int(df_fam['Children'][i][index][1:])-1]
+            {k: v for k, v in sorted(siblings.items(), key=lambda item: item[1])}
+            for key,value in siblings.items():
+                        children += " " + str(key) +"("+str(abs(value))+")"
+            error.append('ENTRY FOUND : FAMILY: US28: ' + str(i)+': ' ' has siblings :' + children )
+            count = count + 1
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US28: No records found')
+        return(error)
+
+
+errorUS28 = us28()
+# print(errorUS28)
+print(*errorUS28, sep="\n")
 
 ##########__________________Pranav's Code__________________########################
 
