@@ -362,9 +362,9 @@ def us27():
     error = []
     for i, j in df_indi.iterrows():
         if df_indi['Age'][i] > 0:
-            error.append('ENTRY FOUND: INDIVIDUAL: US27: ' + \
-                str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] + \
-                ' is of age '+str(df_indi['Age'][i]))
+            error.append('ENTRY FOUND: INDIVIDUAL: US27: ' +
+                         str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] +
+                         ' is of age '+str(df_indi['Age'][i]))
             count = count + 1
     if(count > 0):
         return (error)
@@ -385,15 +385,18 @@ def us28():
     count = 0
     error = []
     for i, j in df_fam.iterrows():
-        if len(df_fam['Children'][i])>1:
+        if len(df_fam['Children'][i]) > 1:
             children = ""
-            siblings ={}
+            siblings = {}
             for index in range(len(df_fam['Children'][i])):
-                siblings[df_fam['Children'][i][index]] = df_indi['Age'][int(df_fam['Children'][i][index][1:])-1]
-            {k: v for k, v in sorted(siblings.items(), key=lambda item: item[1])}
-            for key,value in siblings.items():
-                        children += " " + str(key) +"("+str(abs(value))+")"
-            error.append('ENTRY FOUND : FAMILY: US28: ' + str(i)+': ' ' has siblings :' + children )
+                siblings[df_fam['Children'][i][index]] = df_indi['Age'][int(
+                    df_fam['Children'][i][index][1:])-1]
+            {k: v for k, v in sorted(
+                siblings.items(), key=lambda item: item[1])}
+            for key, value in siblings.items():
+                children += " " + str(key) + "("+str(abs(value))+")"
+            error.append('ENTRY FOUND : FAMILY: US28: ' +
+                         str(i)+': ' ' has siblings :' + children)
             count = count + 1
     if(count > 0):
         return (error)
@@ -633,15 +636,17 @@ us24Error = US24()
 print(*us24Error, sep="\n")
 
 # Unique First Names in families
+
+
 def US25():
-    
+
     df_copy_indi = df_indi.copy()
     df_copy_fam = df_fam.copy()
     row = df_copy_indi.iloc[1:7]
     df_copy = df_copy_indi.append(row, ignore_index=True)
     name_birth_list = []
     error = []
-   
+
     for index, col in df_copy_fam.iterrows():
         child = col['Children']
         if child != None:
@@ -651,21 +656,25 @@ def US25():
                     birth = str(col['Birthday'])
                     temp = (name, birth)
                     name_birth_list.append(temp)
-                    
+
     count = dict(Counter(name_birth_list))
-    
+
     for key, value in count.items():
         if value > 1:
-            error.append("ERROR: INDIVIDUAL: US25: No unique first name in family for name: " + str(key[0]))
-             
-    return error       
+            error.append(
+                "ERROR: INDIVIDUAL: US25: No unique first name in family for name: " + str(key[0]))
+
+    return error
+
 
 us25Error = US25()
 print(*us25Error, sep="\n")
 
 # Corresponding Entries
+
+
 def US26():
-    
+
     df_copy_indi = df_indi.copy()
     df_copy_fam = df_fam.copy()
 
@@ -675,15 +684,17 @@ def US26():
     error_indi = []
     error_fam = []
     error = []
-    
+
     fam_id_list = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"]
-    indi_id_list = ["I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9", "I10", "I11", "I12", "I13", "I14", "I15", "I16", "I17", "I18"]
-    
-    df_copy_indi = df_copy_indi.append({'ID': 'I2', 'Name': 'Robb /Stark/', 'Gender': 'M', 'Birthday': date_value, 'Age': 22, 'Child': 'F11', 'Spouce': 'F12'}, ignore_index=True)
-    
+    indi_id_list = ["I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9",
+                    "I10", "I11", "I12", "I13", "I14", "I15", "I16", "I17", "I18"]
+
+    df_copy_indi = df_copy_indi.append({'ID': 'I2', 'Name': 'Robb /Stark/', 'Gender': 'M',
+                                        'Birthday': date_value, 'Age': 22, 'Child': 'F11', 'Spouce': 'F12'}, ignore_index=True)
+
     df_copy_fam = df_copy_fam.append({'ID': 'F2', 'Husband ID': 'I19', 'Husband Name': 'Ned Stark',
                                       'Wife ID': 'I0', 'Wife Name': 'Cate Laniaster', 'Children': ['I20']}, ignore_index=True)
-    
+
     # FAM ROLES
     for index, col in df_copy_indi.iterrows():
         child = col["Child"]
@@ -693,9 +704,9 @@ def US26():
                 entries_fam_roles.append(child)
                 entries_fam_roles.append(spouse)
             else:
-                error_indi.append("ERROR: INDIVIDUAL: US26: No corresponding entries for " + col["Name"] + " in the corresponding family records")
-            
-    
+                error_indi.append("ERROR: INDIVIDUAL: US26: No corresponding entries for " +
+                                  col["Name"] + " in the corresponding family records")
+
     # INDI ROLES
     for index, col in df_copy_fam.iterrows():
         children = col["Children"]
@@ -706,15 +717,16 @@ def US26():
                 entries_indi_roles.append(children)
                 entries_indi_roles.append(husb_id)
                 entries_indi_roles.append(wife_id)
-                
+
             else:
-                error_fam.append("ERROR: FAMILY: US26: No corresponding entries for Husband Name: " + col["Husband Name"] + " and Wife Name: " + col["Wife Name"] + " in the corresponding individual records")
-   
-    
+                error_fam.append("ERROR: FAMILY: US26: No corresponding entries for Husband Name: " +
+                                 col["Husband Name"] + " and Wife Name: " + col["Wife Name"] + " in the corresponding individual records")
+
     error = error_indi + error_fam
-    
+
     return error
-    
+
+
 us26Error = US26()
 print(*us26Error, sep="\n")
 
@@ -905,22 +917,27 @@ print(*errorUS29, sep="\n")
 def US30():
     errors = []
     for i, c in df_fam.iterrows():
-        if(c['Married'] != 'NA'):
+        if(c['Divorced'] == 'NA'):
             hid = c['Husband ID']
             wid = c['Wife ID']
+            hname = c['Husband Name']
+            wname = c['Wife Name']
+            flag = True
             for x, y in df_indi.iterrows():
                 if(y['ID'] == hid):
-                    if(y['Alive'] == True):
-                        errors.append("ERROR: "+"INDIVIDUAL: "+"US30: "+str(i)+': '+y['ID']+": "+y['Name'] +
-                                      " is alive and married")
+                    if(y['Alive'] == False):
+                        flag = False
                 elif(y['ID'] == wid):
-                    if(y['Alive'] == True):
-                        errors.append("ERROR: "+"INDIVIDUAL: "+"US30: "+str(i)+': '+y['ID']+": "+y['Name'] +
-                                      " is alive and married")
+                    if(y["Alive"] == False):
+                        flag = False
+            if(flag == True):
+                errors.append("ERROR: "+"FAMILY: "+"US30: "+str(i)+": "+hname+"("+hid+")" +
+                              " and "+wname+"("+wid+")"+" is alive and married ")
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US39: No records found')
+        return(errors)
 
 
 errorUS30 = US30()
