@@ -2,6 +2,8 @@
 
 CS 555 Agile Methods for Software Development taught by Professor Jim Rowland at Stevens Institute of Technology for Spring 2020<br>
 
+Technologies used: Python, Jupyter Notebook, Pandas, NumPy, Unit Testing
+
 Scope of the course: <br>
 
 - describe several agile methods for software development
