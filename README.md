@@ -16,3 +16,5 @@ Scope of the course: <br>
 - measure and monitor velocity of development
 - compare and contrast plan-driven versus agile methods
 - construct tailored agile processes that best fit the technical and market demands of a modern software project
+
+**Final Grade: A**
