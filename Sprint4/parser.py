@@ -11,6 +11,7 @@ from datetime import datetime
 from datetime import date, timedelta
 import pandas as pd
 import numpy as np
+from collections import Counter
 import datetime
 import dateutil.relativedelta
 from tabulate import tabulate
@@ -120,7 +121,7 @@ for key, value in dictIndi.items():
         age = relativedelta(deat, birt).years
     else:
         age = relativedelta(datetime.datetime.now(), birt).years
-        alive = 'NA'
+        alive = True
 
     df_indi = df_indi.append({'ID': key, 'Name': name, 'Gender': gender, 'Birthday': birt,
                               'Alive': alive, 'Death': deat, 'Child': famc, 'Spouce': fams, 'Age': age}, ignore_index=True)
@@ -286,6 +287,127 @@ def us18():
 us18Error = us18()
 print(*us18Error, sep="\n")
 
+# User Story 34 : VJ
+# List large age differences
+
+
+def us34():
+    df_copy = df_indi.copy()
+    error = []
+    dict = {}
+    for i, j in df_copy.iterrows():
+        dict[df_copy['ID'][i]] = df_copy['Age'][i]
+    for i, j in df_fam.iterrows():
+        if dict[df_fam['Husband ID'][i]] > dict[df_fam['Wife ID'][i]]:
+            if dict[df_fam['Husband ID'][i]] > dict[df_fam['Wife ID'][i]]*2:
+                error.append("ERROR FAMILY US34 : " + df_fam['Husband ID'][i] +
+                             " :The Husband is more than double the age of " + df_fam['Wife ID'][i] + " :The Wife ")
+        else:
+            if dict[df_fam['Wife ID'][i]] > dict[df_fam['Husband ID'][i]]*2:
+                error.append("ERROR FAMILY US34 : " +
+                             df_fam['Wife ID'][i]+" :The Wife is more than double the age of " + df_fam['Husband ID'][i] + " :The Husband ")
+    return error
+
+
+us34Error = us34()
+print(*us34Error, sep="\n")
+
+# User Story 20 : VJ
+# Uncles and Aunts
+
+
+def us20():
+    df_copy = df_fam.copy()
+    correct = []
+    error = []
+    children = ""
+    uncleAunts = ""
+    for i, j in df_copy.iterrows():
+        for k, l in df_copy.iterrows():
+            if df_copy['Husband ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k]) > 1:
+                if len(df_copy['Children'][i]) != 0:
+                    for index in range(len(df_copy['Children'][i])):
+                        children += " " + str(df_copy['Children'][i][index])
+                    for index in range(len(df_copy['Children'][k])):
+                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]):
+                            uncleAunts += str(df_copy['Children'][k][index])
+                    error.append("ENTRY FOUND US20 " + "Children : " + children +
+                                 " have Uncle/s and Aunt/s with ID/s " + uncleAunts)
+                    children = ""
+                    uncleAunts = ""
+            elif df_copy['Wife ID'][i] in df_copy['Children'][k] and len(df_copy['Children'][k]) > 1:
+                if len(df_copy['Children'][i]) != 0:
+                    for index in range(len(df_copy['Children'][i])):
+                        children += " " + str(df_copy['Children'][i][index])
+                    for index in range(len(df_copy['Children'][k])):
+                        if str(df_copy['Children'][k][index]) != str(df_copy['Wife ID'][i]) and str(df_copy['Children'][k][index]) != str(df_copy['Husband ID'][i]):
+                            uncleAunts += str(df_copy['Children'][k][index])
+                    error.append("ENTRY FOUND US20 " + "Children : " + children +
+                                 " have Uncle/s and Aunt/s with ID/s " + uncleAunts)
+                    children = ""
+                    uncleAunts = ""
+    return error
+
+
+us20Error = us20()
+print(*us20Error, sep="\n")
+
+
+# User Story 27 : VJ
+# Include individual ages
+
+
+def us27():
+    count = 0
+    error = []
+    for i, j in df_indi.iterrows():
+        if df_indi['Age'][i] > 0:
+            error.append('ENTRY FOUND: INDIVIDUAL: US27: ' +
+                         str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] +
+                         ' is of age '+str(df_indi['Age'][i]))
+            count = count + 1
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US27: No records found')
+        return(error)
+
+
+errorUS27 = us27()
+# print(errorUS27)
+print(*errorUS27, sep="\n")
+
+# User Story 28 : VJ
+# Order siblings by age
+
+
+def us28():
+    count = 0
+    error = []
+    for i, j in df_fam.iterrows():
+        if len(df_fam['Children'][i]) > 1:
+            children = ""
+            siblings = {}
+            for index in range(len(df_fam['Children'][i])):
+                siblings[df_fam['Children'][i][index]] = df_indi['Age'][int(
+                    df_fam['Children'][i][index][1:])-1]
+            {k: v for k, v in sorted(
+                siblings.items(), key=lambda item: item[1])}
+            for key, value in siblings.items():
+                children += " " + str(key) + "("+str(abs(value))+")"
+            error.append('ENTRY FOUND : FAMILY: US28: ' +
+                         str(i)+': ' ' has siblings :' + children)
+            count = count + 1
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US28: No records found')
+        return(error)
+
+
+errorUS28 = us28()
+# print(errorUS28)
+print(*errorUS28, sep="\n")
 
 ##########__________________Pranav's Code__________________########################
 
@@ -379,7 +501,6 @@ def us_06_divorce_before_death():
         else:
             wrong.append("ERROR: " + "INDIVIDUAL: " + "US06: " + str(i) + ": " + " " +
                          j['ID'] + ": " + j['Name'] + " has an erroneous Divorce Date with respect to Deathdate: " + str(j['Death']))
-
     return wrong
 
 
@@ -456,6 +577,159 @@ def US22():
 us22Error = US22()
 print(*us22Error, sep="\n")
 
+# PN: User Story 23: unique name and birth date
+
+
+def US23():
+
+    df_copy = df_indi.copy()
+    row = df_copy.iloc[2:4]
+    df_copy = df_copy.append(row, ignore_index=True)
+    name_birthdate = []
+    error = []
+
+    for index, col in df_copy.iterrows():
+        name = col['Name']
+        dob = str(col['Birthday'])
+        temp = (name, dob)
+        name_birthdate.append(temp)
+
+    count = dict(Counter(name_birthdate))
+    for key, value in count.items():
+        if value > 1:
+            error.append("ERROR: INDIVIDUAL: US23: Unique name & Unique date_of_birth violated for Name: " +
+                         str(key[0]) + " and Date of Birth: " + str(key[1]))
+    return error
+
+
+us23Error = US23()
+print(*us23Error, sep="\n")
+
+# PN: User Story 24: unique families by spouses
+# No more than one family with the same spouses by name and the same marriage date should appear in a GEDCOM file
+
+
+def US24():
+
+    df_copy = df_fam.copy()
+    row = df_copy.iloc[4:6]
+    df_copy = df_copy.append(row, ignore_index=True)
+    spouses_marriage_date = []
+    error = []
+
+    for index, col in df_copy.iterrows():
+        marriage_date = col['Married']
+        husband_name = col['Husband Name']
+        wife_name = col['Wife Name']
+        temp = (marriage_date, husband_name, wife_name)
+        spouses_marriage_date.append(temp)
+
+    count = dict(Counter(spouses_marriage_date))
+    for key, value in count.items():
+        if value > 1:
+            error.append("ERROR: FAMILY: US24: Unique spouse names & Unique marriage_date violated for Husband Name: " +
+                         str(key[1]) + " ,Wife Name: " + str(key[2]) + ", and Marriage Date: " + str(key[0]))
+    return error
+
+
+us24Error = US24()
+print(*us24Error, sep="\n")
+
+# Unique First Names in families
+
+
+def US25():
+
+    df_copy_indi = df_indi.copy()
+    df_copy_fam = df_fam.copy()
+    row = df_copy_indi.iloc[1:7]
+    df_copy = df_copy_indi.append(row, ignore_index=True)
+    name_birth_list = []
+    error = []
+
+    for index, col in df_copy_fam.iterrows():
+        child = col['Children']
+        if child != None:
+            for index, col in df_copy.iterrows():
+                if col['ID'] in child:
+                    name = col['Name']
+                    birth = str(col['Birthday'])
+                    temp = (name, birth)
+                    name_birth_list.append(temp)
+
+    count = dict(Counter(name_birth_list))
+
+    for key, value in count.items():
+        if value > 1:
+            error.append(
+                "ERROR: INDIVIDUAL: US25: No unique first name in family for name: " + str(key[0]))
+
+    return error
+
+
+us25Error = US25()
+print(*us25Error, sep="\n")
+
+# Corresponding Entries
+
+
+def US26():
+
+    df_copy_indi = df_indi.copy()
+    df_copy_fam = df_fam.copy()
+
+    date_value = datetime.datetime.strptime('1960-04-14', '%Y-%m-%d').date()
+    entries_fam_roles = []
+    entries_indi_roles = []
+    error_indi = []
+    error_fam = []
+    error = []
+
+    fam_id_list = ["F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10"]
+    indi_id_list = ["I1", "I2", "I3", "I4", "I5", "I6", "I7", "I8", "I9",
+                    "I10", "I11", "I12", "I13", "I14", "I15", "I16", "I17", "I18"]
+
+    df_copy_indi = df_copy_indi.append({'ID': 'I2', 'Name': 'Robb /Stark/', 'Gender': 'M',
+                                        'Birthday': date_value, 'Age': 22, 'Child': 'F11', 'Spouce': 'F12'}, ignore_index=True)
+
+    df_copy_fam = df_copy_fam.append({'ID': 'F2', 'Husband ID': 'I19', 'Husband Name': 'Ned Stark',
+                                      'Wife ID': 'I0', 'Wife Name': 'Cate Laniaster', 'Children': ['I20']}, ignore_index=True)
+
+    # FAM ROLES
+    for index, col in df_copy_indi.iterrows():
+        child = col["Child"]
+        spouse = col["Spouce"]
+        if (child != 'NA' or spouse != 'NA'):
+            if (child in fam_id_list or spouse in fam_id_list):
+                entries_fam_roles.append(child)
+                entries_fam_roles.append(spouse)
+            else:
+                error_indi.append("ERROR: INDIVIDUAL: US26: No corresponding entries for " +
+                                  col["Name"] + " in the corresponding family records")
+
+    # INDI ROLES
+    for index, col in df_copy_fam.iterrows():
+        children = col["Children"]
+        husb_id = col["Husband ID"]
+        wife_id = col["Wife ID"]
+        if (children != 'NA' or husb_id != 'NA' or wife_id != 'NA'):
+            if (children in indi_id_list or husb_id in indi_id_list or wife_id in indi_id_list):
+                entries_indi_roles.append(children)
+                entries_indi_roles.append(husb_id)
+                entries_indi_roles.append(wife_id)
+
+            else:
+                error_fam.append("ERROR: FAMILY: US26: No corresponding entries for Husband Name: " +
+                                 col["Husband Name"] + " and Wife Name: " + col["Wife Name"] + " in the corresponding individual records")
+
+    error = error_indi + error_fam
+
+    return error
+
+
+us26Error = US26()
+print(*us26Error, sep="\n")
+
 ##########__________________Sanket's Code__________________########################
 
 # US07 : SP
@@ -472,7 +746,8 @@ def US07():
     if(errors):
         return(errors)
     else:
-        return("No errors")
+        errors.append('ERROR: US07: No records found')
+        return(errors)
 
 
 errorUS07 = US07()
@@ -502,7 +777,8 @@ def US08():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US08: No records found')
+        return(errors)
 
 
 errorUS08 = US08()
@@ -522,7 +798,8 @@ def US35():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US35: No records found')
+        return(errors)
 
 
 errorUS35 = US35()
@@ -543,11 +820,129 @@ def US36():
     if(errors):
         return(errors)
     else:
-        return("No Errors")
+        errors.append('ERROR: US36: No records found')
+        return(errors)
 
 
 errorUS36 = US36()
 print(*errorUS36, sep="\n")
+
+
+# US38 : SP
+# List upcoming birthdays
+
+
+def US38():
+    errors = []
+    dt = date.today() + timedelta(30)
+    for i, c in df_indi.iterrows():
+        bir = c['Birthday']
+        y = date.today().year
+        bir = bir.replace(year=y)
+        if(c['Death'] == 'NA'):
+            if(bir <= dt and bir >= date.today()):
+                errors.append("ERROR: "+"INDIVIDUAL: "+"US38: "+str(i)+': ' +
+                              c['ID']+": "+c['Name'] + " has upcoming Birthday on "+str(c['Birthday']))
+    if(errors):
+        return(errors)
+    else:
+        errors.append('ERROR: US38: No records found')
+        return(errors)
+
+
+errorUS38 = US38()
+print(*errorUS38, sep="\n")
+
+
+# US39 : SP
+# List upcoming anniveraries
+
+def US39():
+    errors = []
+    dt = date.today() + timedelta(30)
+    for i, c in df_fam.iterrows():
+        mar = c['Married']
+        y = date.today().year
+        mar = mar.replace(year=y)
+        if(c['Divorced'] == 'NA'):
+            if(mar <= dt and mar >= date.today()):
+                hid = c['Husband ID']
+                wid = c['Wife ID']
+                hname = c['Husband Name']
+                wname = c['Wife Name']
+                flag = True
+                for x, y in df_indi.iterrows():
+                    if(y['ID'] == hid):
+                        if(y['Alive'] == 'False'):
+                            flag = False
+                    elif(y['ID'] == wid):
+                        if(y["Alive"] == 'False'):
+                            flag = False
+                if(flag == True):
+                    errors.append("ERROR: "+"FAMILY: "+"US39: "+str(i)+": "+hname+"("+hid+")" +
+                                  " and "+wname+"("+wid+")"+" has upcoming Anniversary on "+str(c['Married']))
+    if(errors):
+        return(errors)
+    else:
+        errors.append('ERROR: US39: No records found')
+        return(errors)
+
+
+errorUS39 = US39()
+print(*errorUS39, sep="\n")
+
+
+# US29 : SP
+# List deceased
+
+def US29():
+    errors = []
+    for i, c in df_indi.iterrows():
+        if(c['Alive'] == False and c['Death'] != 'NA'):
+            errors.append("ERROR: "+"INDIVIDUAL: "+"US29: "+str(i)+': '+c['ID']+": "+c['Name'] +
+                          " died on "+str(c['Death']))
+    if(errors):
+        return(errors)
+    else:
+        return("No Errors")
+
+
+errorUS29 = US29()
+print(*errorUS29, sep="\n")
+
+
+# US30 : SP
+# List living married
+
+def US30():
+    errors = []
+    for i, c in df_fam.iterrows():
+        if(c['Divorced'] == 'NA'):
+            hid = c['Husband ID']
+            wid = c['Wife ID']
+            hname = c['Husband Name']
+            wname = c['Wife Name']
+            flag = True
+            for x, y in df_indi.iterrows():
+                if(y['ID'] == hid):
+                    if(y['Alive'] == False):
+                        flag = False
+                elif(y['ID'] == wid):
+                    if(y["Alive"] == False):
+                        flag = False
+            if(flag == True):
+                errors.append("ERROR: "+"FAMILY: "+"US30: "+str(i)+": "+hname+"("+hid+")" +
+                              " and "+wname+"("+wid+")"+" is alive and married ")
+    if(errors):
+        return(errors)
+    else:
+        errors.append('ERROR: US39: No records found')
+        return(errors)
+
+
+errorUS30 = US30()
+print(*errorUS30, sep="\n")
+
 
 #############__________________Parth's Code__________________###############
 
@@ -690,3 +1085,138 @@ def US09():
 
 errorUS09 = US09()
 print(*errorUS09, sep="\n")
+
+# US11 : PP
+# Marriage should not occur during marriage to another spouse
+
+
+def US11():
+    count = 0
+    error = []
+    for i in range(len(df_fam)):
+        for j in range(i, len(df_fam)):
+            if(df_fam['Wife Name'][i] == df_fam['Wife Name'][j] and df_fam['ID'][i] != df_fam['ID'][j]):
+
+                iMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][i]].values[0])[1]
+                iDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][i]].values[0])[2]
+                jMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][j]].values[0])[1]
+                jDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][j]].values[0])[2]
+                if((iMarry < jMarry and iDiv == 'NA')or (iMarry < jMarry and iDiv > jMarry)):
+                    print_line = 'ERROR: FAMILY: US11: '+str(i)+': '+df_fam['ID'][i] + ': '+df_fam['Wife Name'][i] + \
+                        " is married to " + \
+                        df_fam['Husband Name'][i] + "and " + \
+                        df_fam['Husband Name'][j] + " at the same time"
+                    count = count + 1
+                    error.append(print_line)
+
+            if(df_fam['Husband Name'][i] == df_fam['Husband Name'][j] and df_fam['ID'][i] != df_fam['ID'][j]):
+                iMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][i]].values[0])[1]
+                iDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][i]].values[0])[2]
+                jMarry = (df_fam.loc[df_fam['ID'] ==
+                                     df_fam['ID'][j]].values[0])[1]
+                jDiv = (df_fam.loc[df_fam['ID'] ==
+                                   df_fam['ID'][j]].values[0])[2]
+                if((iMarry < jMarry and iDiv == 'NA')or (iMarry < jMarry and iDiv > jMarry)):
+                    print_line = 'ERROR: FAMILY: US11: '+str(i)+': '+df_fam['ID'][i] + ': '+df_fam['Husband Name'][i] + \
+                        " is married to " + \
+                        df_fam['Wife Name'][i] + "and " + \
+                        df_fam['Wife Name'][j] + " at the same time"
+                    count = count + 1
+                    error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US11: No records found')
+        return(error)
+
+
+errorUS11 = US11()
+print(*errorUS11, sep="\n")
+
+# US12 : PP
+# Mother should be less than 60 years older than her children and father should be less than 80 years older than his children
+
+
+def US12():
+    count = 0
+    error = []
+    for i in range(len(df_fam)):
+        if(len(df_fam['Children'][i]) > 0):
+            if(len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values) > 0 and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8] != 'NA' and df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4] != 'NA' and len(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][8]) > 0 and df_indi['Alive'].loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0] == True):
+
+                logging.debug('First IF is here')
+                if(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'F' and (df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4] - df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4]) > 60):
+                    print_line = 'ERROR: FAMILY: US12: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Mother\'s age ' + str(
+                        df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4]) + ' is more than 60 years older than her child ' + str(df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4])
+                    count = count + 1
+                    error.append(print_line)
+                elif(df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][2] == 'M' and (df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4] - df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4]) > 80):
+                    print_line = 'ERROR: FAMILY: US12: '+str(i)+': '+df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][0]+': '+'Father\'s age ' + str(
+                        df_indi.loc[df_indi['Spouce'] == df_fam['ID'][i]].values[0][4]) + ' is more than 60 years older than his child with age' + str(df_indi.loc[df_indi['Child'] == df_fam['ID'][i]].values[0][4])
+                    count = count + 1
+                    error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+
+
+errorUS12 = US12()
+print(*errorUS12, sep="\n")
+
+# US31 : PP
+# List living single
+
+
+def US31():
+    count = 0
+    error = []
+    for i in range(len(df_indi)):
+        if(df_indi['Age'][i] > 30 and df_indi['Spouce'][i] == 'NA'):
+            print_line = 'ERROR: INDIVIDUAL: US31: ' + \
+                str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] + \
+                ' is of age '+str(df_indi['Age'][i]) + ' and unmarried'
+            count = count + 1
+            error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+
+
+errorUS31 = US31()
+print(*errorUS31, sep="\n")
+
+# US32 : PP
+# List multiple births
+
+
+def US32():
+    count = 0
+    error = []
+    for i in range(len(df_indi)):
+        for j in range(i, len(df_indi)):
+            if(df_indi['Birthday'][i] == df_indi['Birthday'][j] and df_indi['ID'][i] != df_indi['ID'][j]):
+                print_line = 'ERROR: INDIVIDUAL: US32: ' + \
+                    str(i)+': '+df_indi['ID'][i]+': '+df_indi['Name'][i] + \
+                    ' and '+df_indi['Name'][j]+' ('+str(df_indi['ID'][j]) + \
+                    ') have the same birthdate '+str(df_indi['Birthday'][i])
+                count = count + 1
+                error.append(print_line)
+    if(count > 0):
+        return (error)
+    else:
+        error.append('ERROR: US09: No records found')
+        return(error)
+
+
+errorUS32 = US32()
+print(*errorUS32, sep="\n")
